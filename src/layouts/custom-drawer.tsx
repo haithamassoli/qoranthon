@@ -10,11 +10,12 @@ import Loading from "@components/loading";
 import { logoutMutation } from "@apis/auth";
 import Colors from "@styles/colors";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
-import { dateDiff } from "@utils/helper";
+import { getDataMMKV } from "@utils/helper";
 
 const CustomDrawer = (props: any) => {
   const { user } = useStore();
   const { mutate, isLoading } = logoutMutation();
+  const streak = getDataMMKV("streakDays");
 
   if (isLoading) return <Loading />;
 
@@ -37,7 +38,7 @@ const CustomDrawer = (props: any) => {
             color={Colors.tertiary}
           />
           <ReText variant="TitleSmall" color="tertiary">
-            {dateDiff(new Date("2023-11-01"))}
+            {streak.streakDays} يوم
           </ReText>
         </Box>
         <Box justifyContent="center" alignItems="center" paddingTop="vxl">

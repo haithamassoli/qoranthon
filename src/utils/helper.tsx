@@ -41,7 +41,13 @@ export const dateFromNow = (date: Date) => {
   return dayjs(date).fromNow();
 };
 
-export const dateDiff = (date: Date) => dayjs().diff(date, "day") + " يوم";
+export const isDateInSameDay = (date1: Date, date2: Date) => {
+  return (
+    date1.getDate() === date2.getDate() &&
+    date1.getMonth() === date2.getMonth() &&
+    date1.getFullYear() === date2.getFullYear()
+  );
+};
 
 export const dayInWeek = (date: Date) => {
   const days = [

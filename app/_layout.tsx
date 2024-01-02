@@ -34,7 +34,7 @@ import {
 } from "expo-router";
 import { LightNavigationColors } from "@styles/navigation";
 import RNRestart from "react-native-restart";
-import { getDataMMKV, storeDataMMKV } from "@utils/helper";
+import { getDataMMKV, isDateInSameDay, storeDataMMKV } from "@utils/helper";
 import { addNotificationToken } from "@apis/notifications";
 
 if (
@@ -116,6 +116,29 @@ export default function RootLayout() {
     }
   };
 
+  const getStreakDays = () => {
+    const streak = getDataMMKV("streakDays");
+    if (streak) {
+      if (isDateInSameDay(new Date(), new Date(streak.lastStreakDate))) return;
+      if (
+        isDateInSameDay(
+          new Date(),
+          new Date(new Date(streak.lastStreakDate).getTime() + 86400000)
+        )
+      ) {
+        storeDataMMKV("streakDays", {
+          streakDays: streak.streakDays + 1,
+          lastStreakDate: new Date(),
+        });
+      }
+    } else {
+      storeDataMMKV("streakDays", {
+        streakDays: 1,
+        lastStreakDate: new Date(),
+      });
+    }
+  };
+
   const configurePushNotifications = async () => {
     if (Platform.OS === "android") {
       await Notifications.setNotificationChannelAsync("default", {
@@ -154,6 +177,7 @@ export default function RootLayout() {
   useEffect(() => {
     forceRTL();
     getUserFromStorage();
+    getStreakDays();
     // @ts-ignore
     responseListener.current =
       Notifications.addNotificationResponseReceivedListener((response) => {
