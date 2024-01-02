@@ -37,13 +37,11 @@ export const removeAllMMKV = () => {
   }
 };
 
-export const rtlWebview = (html: string) => {
-  return `<html dir="rtl" lang="ar"><body>${html}</body></html>`;
-};
-
 export const dateFromNow = (date: Date) => {
   return dayjs(date).fromNow();
 };
+
+export const dateDiff = (date: Date) => dayjs().diff(date, "day") + " يوم";
 
 export const dayInWeek = (date: Date) => {
   const days = [

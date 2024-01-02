@@ -5,10 +5,12 @@ import { Divider, Drawer } from "react-native-paper";
 import { Box, ReText } from "@styles/theme";
 import { IconSize } from "@styles/size";
 import { useStore } from "@zustand/store";
-import { ms, vs } from "@utils/platform";
+import { hs, vs } from "@utils/platform";
 import Loading from "@components/loading";
 import { logoutMutation } from "@apis/auth";
 import Colors from "@styles/colors";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
+import { dateDiff } from "@utils/helper";
 
 const CustomDrawer = (props: any) => {
   const { user } = useStore();
@@ -19,6 +21,25 @@ const CustomDrawer = (props: any) => {
   return (
     <Box flex={1}>
       <DrawerContentScrollView {...props}>
+        <Box
+          flexDirection="row"
+          alignItems="center"
+          justifyContent="center"
+          style={{
+            position: "absolute",
+            top: useSafeAreaInsets().top,
+            left: hs(16),
+          }}
+        >
+          <Ionicons
+            name="flame-outline"
+            size={IconSize.l}
+            color={Colors.tertiary}
+          />
+          <ReText variant="TitleSmall" color="tertiary">
+            {dateDiff(new Date("2023-11-01"))}
+          </ReText>
+        </Box>
         <Box justifyContent="center" alignItems="center" paddingTop="vxl">
           <Feather name="user" color={Colors.tertiary} size={IconSize.xl} />
           <ReText variant="TitleMedium" color="tertiary" marginVertical="vs">
