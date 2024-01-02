@@ -11,14 +11,12 @@
     "splash": {
       "image": "./assets/splash.png",
       "resizeMode": "contain",
-      "backgroundColor": "#fff9f1"
+      "backgroundColor": "#111113"
     },
     "updates": {
       "fallbackToCacheTimeout": 0
     },
-    "assetBundlePatterns": [
-      "**/*"
-    ],
+    "assetBundlePatterns": ["**/*"],
     "ios": {
       "googleServicesFile": "./GoogleService-Info.plist",
       "buildNumber": "1.0.0",
@@ -29,7 +27,7 @@
       "versionCode": 1,
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
-        "backgroundColor": "#fff9f1"
+        "backgroundColor": "#1F2022"
       },
       "package": "com.qoranthon.majalis",
       "googleServicesFile": "./google-services.json",
