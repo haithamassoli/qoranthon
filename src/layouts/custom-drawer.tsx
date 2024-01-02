@@ -22,7 +22,7 @@ const CustomDrawer = (props: any) => {
         <Box justifyContent="center" alignItems="center" paddingTop="vxl">
           <Feather name="user" color={Colors.tertiary} size={IconSize.xl} />
           <ReText variant="TitleMedium" color="tertiary" marginVertical="vs">
-            {user?.name}
+            {user?.role !== "super" ? user?.name : "المدير"}
           </ReText>
         </Box>
         <Box flex={1}>

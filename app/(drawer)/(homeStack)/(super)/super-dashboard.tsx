@@ -148,7 +148,10 @@ const SuperScreen = () => {
               <Feather name="menu" size={ms(24)} color={Colors.onBackground} />
             </TouchableOpacity>
             <ReText variant="TitleMedium" marginLeft="hs">
-              أهلا بالشيخ {user?.name.split(" ")[0]}
+              أهلا
+              {user?.role !== "super"
+                ? ` بالشيخ ${user?.name.split(" ")[0]}`
+                : " بالمدير"}
             </ReText>
           </Box>
           <Box flexDirection="row" gap="hs" alignItems="center">
