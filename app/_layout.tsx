@@ -254,6 +254,7 @@ export const App = () => {
   const [fontsLoaded] = useFonts({
     CairoReg: require("@assets/fonts/Cairo-Reg.ttf"),
     CairoBold: require("@assets/fonts/Cairo-Bold.ttf"),
+    Uthmanic: require("@assets/fonts/UthmanicHafs1Ver18.ttf"),
   });
   const onLayoutRootView = useCallback(() => {
     if (fontsLoaded) {
