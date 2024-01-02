@@ -137,7 +137,7 @@ export default function RootLayout() {
         return;
       }
       const pushNotificationsToken = await Notifications.getExpoPushTokenAsync({
-        projectId: "d190c2f6-1bcb-456f-a3bd-4ecdeed3bec2",
+        projectId: "440aa068-5a2d-4b75-8997-66066412f00c",
       });
       const user = getDataMMKV("user");
       console.log(user.pushNotificationsToken);

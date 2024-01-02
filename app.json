@@ -16,7 +16,9 @@
     "updates": {
       "fallbackToCacheTimeout": 0
     },
-    "assetBundlePatterns": ["**/*"],
+    "assetBundlePatterns": [
+      "**/*"
+    ],
     "ios": {
       "googleServicesFile": "./GoogleService-Info.plist",
       "buildNumber": "1.0.0",
@@ -30,11 +32,20 @@
         "backgroundColor": "#fff9f1"
       },
       "package": "com.qoranthon.majalis",
-      "googleServicesFile": "./google-services.json"
+      "googleServicesFile": "./google-services.json",
+      "permissions": [
+        "android.permission.READ_EXTERNAL_STORAGE",
+        "android.permission.WRITE_EXTERNAL_STORAGE",
+        "android.permission.DOWNLOAD_WITHOUT_NOTIFICATION",
+        "android.permission.ACCESS_NETWORK_STATE"
+      ]
     },
     "extra": {
       "router": {
         "origin": false
+      },
+      "eas": {
+        "projectId": "440aa068-5a2d-4b75-8997-66066412f00c"
       }
     },
     "plugins": [
