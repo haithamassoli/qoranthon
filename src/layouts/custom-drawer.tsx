@@ -64,9 +64,9 @@ const CustomDrawer = (props: any) => {
         <TouchableOpacity
           onPress={() => {
             Share.share({
-              message: `تطبيق تبيان على الاندرويد
+              message: `تطبيق مجالس على الاندرويد
               
-تطبيق تبيان على الـios
+تطبيق مجالس على الـios
               `,
             });
           }}

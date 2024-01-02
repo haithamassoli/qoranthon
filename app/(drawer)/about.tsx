@@ -34,7 +34,7 @@ const About = () => {
           }}
         />
         <ReText variant="HeadlineSmall" textAlign="center">
-          v1.2.0
+          v1.0.0
         </ReText>
       </Box>
       <Box alignItems="center">

@@ -15,7 +15,7 @@ const Statistics = () => {
         }}
       />
       <ReText variant="DisplaySmall">Statistics</ReText>
-      <ReText variant="BodyLarge">تبيان</ReText>
+      <ReText variant="BodyLarge">مجالس</ReText>
     </Box>
   );
 };

@@ -190,7 +190,7 @@ const Notifications = () => {
                 لا يوجد إشعارات حالياً
               </ReText>
               <ReText variant="BodyLarge" textAlign="center">
-                تبيان
+                مجالس
               </ReText>
             </Box>
           }
