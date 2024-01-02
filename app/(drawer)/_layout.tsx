@@ -1,4 +1,4 @@
-import { Feather } from "@expo/vector-icons";
+import { Feather, Ionicons } from "@expo/vector-icons";
 import CustomDrawer from "@src/layouts/custom-drawer";
 import { IconSize } from "@styles/size";
 import { ms } from "@utils/platform";
@@ -40,6 +40,19 @@ const HomeDrawer = () => {
         }}
       />
       <Drawer.Screen
+        name="gamification"
+        options={{
+          title: "اختبار ذاتي للحفظ",
+          drawerIcon: ({ color }) => (
+            <Ionicons
+              name="game-controller-outline"
+              size={IconSize.m}
+              color={color}
+            />
+          ),
+        }}
+      />
+      <Drawer.Screen
         name="vision"
         options={{
           title: "رؤية المركز وهدفه",
@@ -51,7 +64,7 @@ const HomeDrawer = () => {
       <Drawer.Screen
         name="statistics"
         options={{
-          title: "إحصائيات  (قريــــبا)",
+          title: "إحصائيات  (قريــبا)",
           drawerIcon: ({ color }) => (
             <Feather name="bar-chart-2" size={IconSize.m} color={color} />
           ),

@@ -19,13 +19,13 @@ const CustomDrawer = (props: any) => {
   return (
     <Box flex={1}>
       <DrawerContentScrollView {...props}>
-        <Box justifyContent="center" alignItems="center" paddingTop="v2xl">
+        <Box justifyContent="center" alignItems="center" paddingTop="vxl">
           <Feather name="user" color={Colors.tertiary} size={IconSize.xl} />
           <ReText variant="TitleMedium" color="tertiary" marginVertical="vs">
             {user?.name}
           </ReText>
         </Box>
-        <Box flex={1} paddingTop="vs">
+        <Box flex={1}>
           {props.state.routes.map((route: any, index: number) => {
             const { options } = props.descriptors[route.key];
             if (options.drawerIcon === undefined) return null;
