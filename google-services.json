@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "1034143153328",
+    "project_id": "qoranthon",
+    "storage_bucket": "qoranthon.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1034143153328:android:3d91ea17c4728502d48f75",
+        "android_client_info": {
+          "package_name": "com.qoranthon.majalis"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCEnkdRzdiUCrGZdofmueqfmDNHAR_a3IY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
