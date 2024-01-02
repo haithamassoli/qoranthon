@@ -42,7 +42,8 @@ const HomeDrawer = () => {
       <Drawer.Screen
         name="gamification"
         options={{
-          title: "اختبار ذاتي للحفظ",
+          title: "اختبار الحفظ",
+          headerShown: false,
           drawerIcon: ({ color }) => (
             <Ionicons
               name="game-controller-outline"
