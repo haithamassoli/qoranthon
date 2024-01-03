@@ -44,7 +44,7 @@ const NextAyaTest = () => {
 
   const [numErrs, setNumErrs] = useState(0);
   const [visible, setVisible] = useState(false);
-  const [isDown, setIsDown] = useState(true);
+  const [exitModal, setExitModal] = useState(false);
   const [ayahs, setAyahs] = useState<Ayahs[] | []>([]);
   const [answer, setAnswer] = useState<Ayahs>();
   const [sec, setSec] = useState<number>(0);
@@ -52,6 +52,8 @@ const NextAyaTest = () => {
 
   const showModal = () => setVisible(true);
   const hideModal = () => setVisible(false);
+  const showExitModal = () => setExitModal(true);
+  const hideExitModal = () => setExitModal(false);
 
   const onAnswer = (item: Ayahs) => {
     if (item.number - 1 === answer?.number) {
@@ -111,6 +113,31 @@ const NextAyaTest = () => {
       >
         <Portal>
           <Modal
+            visible={exitModal}
+            onDismiss={hideExitModal}
+            contentContainerStyle={styles.modal}
+          >
+            <ReText
+              variant="TitleMedium"
+              paddingBottom="vm"
+              fontFamily="CairoReg"
+              color="primary"
+            >
+              هل تريد الخروج؟
+            </ReText>
+            <Box
+              flexDirection="row"
+              justifyContent="flex-end"
+              alignItems="center"
+              gap="hs"
+            >
+              <CustomButton mode="text" title="لا" onPress={hideExitModal} />
+              <CustomButton title="نعم" onPress={() => router.back()} />
+            </Box>
+          </Modal>
+        </Portal>
+        <Portal>
+          <Modal
             visible={visible}
             onDismiss={hideModal}
             contentContainerStyle={styles.modal}
@@ -150,6 +177,14 @@ const NextAyaTest = () => {
           marginBottom="vxl"
           fontFamily="CairoBold"
         >
+          السؤال {counter} من {numOfQuestions}
+        </ReText>
+        <ReText
+          textAlign="center"
+          variant="TitleMedium"
+          marginBottom="vxl"
+          fontFamily="CairoBold"
+        >
           ما هي الآية التالية؟
         </ReText>
         <Box
@@ -185,15 +220,6 @@ const NextAyaTest = () => {
           bottom={0}
           left={0}
           backgroundColor="onSurfaceVariant"
-          style={
-            isDown
-              ? {
-                  bottom: 0,
-                }
-              : {
-                  top: useSafeAreaInsets().top,
-                }
-          }
         >
           <Box
             flexDirection="row"
@@ -202,17 +228,10 @@ const NextAyaTest = () => {
             paddingVertical="vs"
             alignItems="center"
           >
-            <TouchableOpacity onPress={() => setIsDown(!isDown)}>
-              <Feather
-                name={isDown ? "chevron-up" : "chevron-down"}
-                size={ms(24)}
-                color={Colors.background}
-              />
-            </TouchableOpacity>
             <ReText variant="BodyLarge" color="background">
-              ترتيب الآيات
+              اختر الإجابة الصحيحة
             </ReText>
-            <TouchableOpacity onPress={() => router.back()}>
+            <TouchableOpacity onPress={showExitModal}>
               <Feather name="log-out" size={ms(24)} color={Colors.background} />
             </TouchableOpacity>
           </Box>
