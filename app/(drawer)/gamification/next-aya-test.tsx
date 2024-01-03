@@ -162,7 +162,7 @@ const NextAyaTest = () => {
               marginTop="vl"
             >
               <CustomButton
-                title="إلغاء"
+                title="خروج"
                 mode="outlined"
                 onPress={() => router.back()}
               />
