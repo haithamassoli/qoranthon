@@ -162,6 +162,7 @@ export const searchSchema = z.object({
       required_error: "البحث يجب أن لا يكون فارغا",
     })
     .max(3, "يجب أن يكون البحث رقمًا بين 1 و 604"),
+  search2: z.optional(z.string()),
 });
 
 export type SearchSchemaType = z.infer<typeof searchSchema>;

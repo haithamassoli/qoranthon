@@ -11,27 +11,56 @@ import { StyleSheet } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import SelectDropdown from "react-native-select-dropdown";
 import ControlledInput from "@components/ui/controlledInput";
+import { useState } from "react";
+import { HelperText } from "react-native-paper";
 
 const Gamification = () => {
   const navigation: any = useNavigation();
+  const [type, setType] = useState<"ما هي الآية التالية؟" | "ترتيب الآيات">(
+    "ما هي الآية التالية؟"
+  );
+  const [customError, setCustomError] = useState<string>("");
   const { control, handleSubmit, reset, setError } = useForm<SearchSchemaType>({
     resolver: zodResolver(searchSchema),
   });
 
   const onSearch = (data: SearchSchemaType) => {
-    if (isNaN(+data.search) || +data.search < 1 || +data.search > 604) {
-      setError("search", {
-        message: "يجب أن يكون البحث رقمًا بين 1 و 604",
-        type: "custom",
-        types: {
-          custom: "يجب أن يكون البحث رقمًا بين 1 و 604",
-        },
-      });
-      return;
+    if (type === "ترتيب الآيات") {
+      if (isNaN(+data.search) || +data.search < 1 || +data.search > 604) {
+        setError("search", {
+          message: "يجب أن يكون البحث رقمًا بين 1 و 604",
+          type: "custom",
+          types: {
+            custom: "يجب أن يكون البحث رقمًا بين 1 و 604",
+          },
+        });
+        return;
+      }
+      reset();
+      // @ts-ignore
+      router.push(`/gamification/quran-test?page=${data.search}`);
+    } else {
+      if (!data.search2) return setCustomError("يجب تحديد الصفحات");
+      if (
+        isNaN(+data.search) ||
+        +data.search < 1 ||
+        +data.search > 604 ||
+        isNaN(+data.search2) ||
+        +data.search2 < 1 ||
+        +data.search2 > 604 ||
+        +data.search2 < +data.search
+      ) {
+        setCustomError(
+          "يجب أن يكون البحث رقمًا بين 1 و 604 والأولى أصغر من الأخرى"
+        );
+        return;
+      }
+      reset();
+      router.push(
+        // @ts-ignore
+        `/gamification/next-aya-test?page=${data.search}&page2=${data.search2}`
+      );
     }
-    reset();
-    // @ts-ignore
-    router.push(`/gamification/quran-test?page=${data.search}`);
   };
   return (
     <Box
@@ -70,18 +99,70 @@ const Gamification = () => {
           rowStyle={styles.row}
           defaultValueByIndex={0}
           rowTextStyle={styles.rowText}
-          onSelect={(item) => console.log(item)}
+          onSelect={(item) => setType(item)}
           rowTextForSelection={(item) => item}
         />
         <Box alignItems="center">
-          <ControlledInput
-            control={control}
-            name="search"
-            placeholder="ادحل الصفحة المطلوبة"
-            label="الصفحة"
-            mode="outlined"
-            width={"100%"}
-          />
+          {type === "ترتيب الآيات" ? (
+            <ControlledInput
+              control={control}
+              name="search"
+              placeholder="ادحل الصفحة المطلوبة"
+              label="الصفحة"
+              mode="outlined"
+              width={"100%"}
+            />
+          ) : (
+            <>
+              <Box
+                flexDirection="row"
+                justifyContent="space-between"
+                width="100%"
+                alignItems="center"
+              >
+                <ReText variant="BodyLarge">من</ReText>
+                <Box width={"50%"}>
+                  <ControlledInput
+                    control={control}
+                    noError
+                    name="search"
+                    label="الصفحة"
+                    mode="outlined"
+                    width={"100%"}
+                  />
+                </Box>
+              </Box>
+              <Box
+                flexDirection="row"
+                justifyContent="space-between"
+                width="100%"
+                alignItems="center"
+              >
+                <ReText variant="BodyLarge">إلى</ReText>
+                <Box width={"50%"}>
+                  <ControlledInput
+                    control={control}
+                    noError
+                    name="search2"
+                    label="الصفحة"
+                    mode="outlined"
+                    width={"100%"}
+                  />
+                </Box>
+              </Box>
+              <HelperText
+                type="error"
+                visible={!!customError}
+                style={{
+                  marginTop: vs(12),
+                  width: "100%",
+                  fontSize: ms(14),
+                }}
+              >
+                {customError}
+              </HelperText>
+            </>
+          )}
         </Box>
         <CustomButton
           title="اختبار"
