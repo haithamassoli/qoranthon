@@ -41,9 +41,9 @@ type PathWithColor = {
   color: Color;
 };
 
-const source = isIOS
-  ? require("@assets/quran.pdf")
-  : { uri: "bundle-assets://quran.pdf", cache: true };
+// const source = isIOS
+//   ? require("@assets/quran.pdf")
+//   : { uri: "bundle-assets://quran.pdf", cache: true };
 // : { uri: "file:///absolute/path/to/assets/quran.pdf", cache: true };
 const renderActivityIndicator = () => <Loading />;
 
@@ -399,23 +399,25 @@ const QuranScreen = () => {
           flex: 1,
         }}
       >
-        <Pdf
-          ref={pdfRef}
-          horizontal
-          trustAllCerts={false}
-          showsHorizontalScrollIndicator={false}
-          showsVerticalScrollIndicator={false}
-          enablePaging
-          spacing={0}
-          enableRTL
-          maxScale={1}
-          enableAnnotationRendering={false}
-          enableAntialiasing={false}
-          renderActivityIndicator={renderActivityIndicator}
-          // source={source}
-          source={pdfUri}
-          style={styles.pdfContainer}
-        />
+        <Box style={styles.rotatePdf}>
+          <Pdf
+            ref={pdfRef}
+            horizontal
+            trustAllCerts={false}
+            showsHorizontalScrollIndicator={false}
+            showsVerticalScrollIndicator={false}
+            enablePaging
+            spacing={0}
+            enableRTL
+            maxScale={1}
+            enableAnnotationRendering={false}
+            enableAntialiasing={false}
+            renderActivityIndicator={renderActivityIndicator}
+            // source={source}
+            source={pdfUri}
+            style={styles.pdfContainer}
+          />
+        </Box>
         {isEditing && (
           <Box
             position="absolute"
@@ -555,6 +557,8 @@ const styles = StyleSheet.create({
     width,
     height: "100%",
     backgroundColor: Colors.background,
+    justifyContent: "center",
+    alignItems: "center",
   },
   modal: {
     backgroundColor: Colors.background,
@@ -588,5 +592,9 @@ const styles = StyleSheet.create({
   },
   notesContent: {
     height: vs(156),
+  },
+  rotatePdf: {
+    flex: 1,
+    transform: [{ rotate: isIOS ? "0deg" : "180deg" }],
   },
 });
