@@ -1,11 +1,5 @@
 import { Box, ReText } from "@styles/theme";
-import {
-  FlatList,
-  LayoutAnimation,
-  Share,
-  StyleSheet,
-  TouchableOpacity,
-} from "react-native";
+import { FlatList, Share, StyleSheet, TouchableOpacity } from "react-native";
 import { getQuranByPage } from "@apis/quran";
 import Loading from "@components/loading";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
@@ -29,45 +23,58 @@ const shuffleArr = (arr: any[]) => {
   return arr;
 };
 
-const QuranTest = () => {
+const getRandomBetweenPages = (min: number, max: number) => {
+  return Math.floor(Math.random() * (max - min + 1) + min);
+};
+
+const NextAyaTest = () => {
   const {
     page,
+    page2,
+    numOfQuestions,
   }: {
     page: string;
+    page2: string;
+    numOfQuestions: string;
   } = useLocalSearchParams();
-  const { data, isInitialLoading } = getQuranByPage(+page);
+
+  const randomPage = getRandomBetweenPages(+page, +page2);
+  const [currentPage, setCurrentPage] = useState(randomPage);
+  const { data, isInitialLoading, refetch } = getQuranByPage(currentPage);
+
   const [numErrs, setNumErrs] = useState(0);
   const [visible, setVisible] = useState(false);
   const [isDown, setIsDown] = useState(true);
   const [ayahs, setAyahs] = useState<Ayahs[] | []>([]);
-  const [answer, setAnswer] = useState<Ayahs[] | []>([]);
+  const [answer, setAnswer] = useState<Ayahs>();
   const [sec, setSec] = useState<number>(0);
+  const [counter, setCounter] = useState<number>(1);
 
   const showModal = () => setVisible(true);
   const hideModal = () => setVisible(false);
 
   const onAnswer = (item: Ayahs) => {
-    let arrCopy = [...ayahs];
-    const sortedAyahsByNumber = arrCopy.sort((a, b) => a.number - b.number);
-    if (item.number === sortedAyahsByNumber[0].number) {
-      LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
-      setAnswer([...answer, item]);
-      setAyahs((prev) => {
-        if (prev.length === 1) {
-          showModal();
-        }
-        return prev.filter((ayah) => ayah.number !== item.number);
-      });
+    if (item.number - 1 === answer?.number) {
+      if (counter === +numOfQuestions) {
+        showModal();
+        return;
+      }
+      setCurrentPage(getRandomBetweenPages(+page, +page2));
+      setAnswer(undefined);
+      setCounter((prev) => prev + 1);
+      setAyahs([]);
+      refetch();
     } else {
-      setNumErrs(numErrs + 1);
+      setNumErrs((prev) => prev + 1);
       useStore.setState({ snackbarText: "الاجابة غير صحيحة حاول مرة أخرى" });
     }
   };
 
   useEffect(() => {
-    if (ayahs.length === 0) {
+    if ((ayahs.length === 0 || !answer) && data?.ayahs) {
       const randomAyahs = shuffleArr(data?.ayahs || []);
-      setAyahs(randomAyahs || []);
+      setAnswer(randomAyahs[0] || undefined);
+      setAyahs(randomAyahs.slice(1) || []);
     }
   }, [data?.ayahs]);
 
@@ -82,7 +89,7 @@ const QuranTest = () => {
 
   const onShare = () => {
     Share.share({
-      message: `نتائج اختبار الحفظ من تطبيق مجالس\nاختبر نفسك في ترتيب الآيات\nالصفحة: ${page}\nعدد الأخطاء: ${numErrs}\nالوقت المستغرق: ${sec} ثانية`,
+      message: `نتائج اختبار الحفظ من تطبيق مجالس\nاختبر نفسك في معرفة الآية التالية\nالصفحة: ${page}\nعدد الأخطاء: ${numErrs}\nالوقت المستغرق: ${sec} ثانية`,
     }).then((res) => {
       if (res.action === "sharedAction") {
         router.back();
@@ -91,6 +98,7 @@ const QuranTest = () => {
   };
 
   if (isInitialLoading) return <Loading />;
+
   return (
     <>
       <Snackbar />
@@ -135,56 +143,43 @@ const QuranTest = () => {
             </Box>
           </Modal>
         </Portal>
-        <FlatList
-          data={answer}
-          renderItem={({ item }) => (
-            <Box
-              backgroundColor="secondaryContainer"
-              borderRadius="m"
-              paddingVertical="vxs"
+        <ReText
+          textAlign="center"
+          variant="TitleMedium"
+          marginTop="vm"
+          marginBottom="vxl"
+          fontFamily="CairoBold"
+        >
+          ما هي الآية التالية؟
+        </ReText>
+        <Box
+          backgroundColor="secondaryContainer"
+          borderRadius="m"
+          paddingVertical="vxs"
+        >
+          <ReText fontFamily="Uthmanic" textAlign="center" variant="TitleLarge">
+            {answer?.text}
+            <ImageBackground
+              source={require("@assets/symbol.png")}
+              contentFit="contain"
+              style={{
+                width: ms(34),
+                height: ms(34),
+              }}
             >
               <ReText
-                fontFamily="Uthmanic"
                 textAlign="center"
-                variant="TitleLarge"
+                lineHeight={ms(30)}
+                variant="LabelMedium"
               >
-                {item.text}
-                <ImageBackground
-                  source={require("@assets/symbol.png")}
-                  contentFit="contain"
-                  style={{
-                    width: ms(34),
-                    height: ms(34),
-                  }}
-                >
-                  <ReText
-                    textAlign="center"
-                    lineHeight={ms(30)}
-                    variant="LabelMedium"
-                  >
-                    {item.numberInSurah}
-                  </ReText>
-                </ImageBackground>
+                {answer?.numberInSurah}
               </ReText>
-            </Box>
-          )}
-          ItemSeparatorComponent={() => <Box height={vs(16)} />}
-          ListEmptyComponent={
-            <Box flex={1} justifyContent="center" alignItems="center">
-              <ReText
-                textAlign="center"
-                variant="TitleMedium"
-                fontFamily="CairoBold"
-              >
-                رتب الآيات بشكل صحيح
-              </ReText>
-            </Box>
-          }
-          keyExtractor={(item) => item.number.toString()}
-        />
+            </ImageBackground>
+          </ReText>
+        </Box>
         <Box
           width={width}
-          height={"40%"}
+          height={"60%"}
           paddingHorizontal="hm"
           position="absolute"
           bottom={0}
@@ -250,7 +245,7 @@ const QuranTest = () => {
   );
 };
 
-export default QuranTest;
+export default NextAyaTest;
 
 const styles = StyleSheet.create({
   modal: {
