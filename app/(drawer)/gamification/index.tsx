@@ -41,6 +41,8 @@ const Gamification = () => {
       router.push(`/gamification/quran-test?page=${data.search}`);
     } else {
       if (!data.search2) return setCustomError("يجب تحديد الصفحات");
+      if (!data.numOfQuestions || +data.numOfQuestions < 1)
+        return setCustomError("يجب تحديد عدد الأسئلة");
       if (
         isNaN(+data.search) ||
         +data.search < 1 ||
@@ -58,7 +60,7 @@ const Gamification = () => {
       reset();
       router.push(
         // @ts-ignore
-        `/gamification/next-aya-test?page=${data.search}&page2=${data.search2}`
+        `/gamification/next-aya-test?page=${data.search}&page2=${data.search2}&numOfQuestions=${data.numOfQuestions}`
       );
     }
   };
@@ -113,11 +115,10 @@ const Gamification = () => {
               width={"100%"}
             />
           ) : (
-            <>
+            <Box gap="vs" width="100%">
               <Box
                 flexDirection="row"
                 justifyContent="space-between"
-                width="100%"
                 alignItems="center"
               >
                 <ReText variant="BodyLarge">من</ReText>
@@ -135,7 +136,6 @@ const Gamification = () => {
               <Box
                 flexDirection="row"
                 justifyContent="space-between"
-                width="100%"
                 alignItems="center"
               >
                 <ReText variant="BodyLarge">إلى</ReText>
@@ -145,6 +145,24 @@ const Gamification = () => {
                     noError
                     name="search2"
                     label="الصفحة"
+                    mode="outlined"
+                    width={"100%"}
+                  />
+                </Box>
+              </Box>
+              <Box
+                flexDirection="row"
+                justifyContent="space-between"
+                alignItems="center"
+              >
+                <ReText variant="BodyLarge">عدد</ReText>
+                <Box width={"50%"}>
+                  <ControlledInput
+                    control={control}
+                    noError
+                    name="numOfQuestions"
+                    defaultValue="5"
+                    label="الأسئلة"
                     mode="outlined"
                     width={"100%"}
                   />
@@ -161,7 +179,7 @@ const Gamification = () => {
               >
                 {customError}
               </HelperText>
-            </>
+            </Box>
           )}
         </Box>
         <CustomButton
