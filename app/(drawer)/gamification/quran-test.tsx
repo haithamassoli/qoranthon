@@ -1,5 +1,11 @@
 import { Box, ReText } from "@styles/theme";
-import { FlatList, Share, StyleSheet, TouchableOpacity } from "react-native";
+import {
+  FlatList,
+  LayoutAnimation,
+  Share,
+  StyleSheet,
+  TouchableOpacity,
+} from "react-native";
 import { getQuranByPage } from "@apis/quran";
 import Loading from "@components/loading";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
@@ -15,6 +21,14 @@ import { router, useLocalSearchParams } from "expo-router";
 import { Modal, Portal } from "react-native-paper";
 import CustomButton from "@components/ui/customButton";
 
+const shuffleArr = (arr: any[]) => {
+  for (let i = arr.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [arr[i], arr[j]] = [arr[j], arr[i]];
+  }
+  return arr;
+};
+
 const QuranTest = () => {
   const {
     page,
@@ -25,7 +39,7 @@ const QuranTest = () => {
   const [numErrs, setNumErrs] = useState(0);
   const [visible, setVisible] = useState(false);
   const [isDown, setIsDown] = useState(true);
-  const [ayahs, setAyahs] = useState<Ayahs[] | []>(data?.ayahs || []);
+  const [ayahs, setAyahs] = useState<Ayahs[] | []>([]);
   const [answer, setAnswer] = useState<Ayahs[] | []>([]);
   const [sec, setSec] = useState<number>(0);
 
@@ -33,8 +47,10 @@ const QuranTest = () => {
   const hideModal = () => setVisible(false);
 
   const onAnswer = (item: Ayahs) => {
-    const sortedAyahsByNumber = ayahs.sort((a, b) => a.number - b.number);
+    let arrCopy = [...ayahs];
+    const sortedAyahsByNumber = arrCopy.sort((a, b) => a.number - b.number);
     if (item.number === sortedAyahsByNumber[0].number) {
+      LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
       setAnswer([...answer, item]);
       setAyahs((prev) => {
         if (prev.length === 1) {
@@ -49,8 +65,10 @@ const QuranTest = () => {
   };
 
   useEffect(() => {
-    const randomAyahs = data?.ayahs.sort(() => Math.random() - 0.5);
-    setAyahs(randomAyahs || []);
+    if (ayahs.length === 0) {
+      const randomAyahs = shuffleArr(data?.ayahs || []);
+      setAyahs(randomAyahs || []);
+    }
   }, [data?.ayahs]);
 
   useEffect(() => {
@@ -107,7 +125,11 @@ const QuranTest = () => {
               justifyContent="flex-end"
               gap="hs"
             >
-              <CustomButton title="إلغاء" mode="outlined" onPress={() => {}} />
+              <CustomButton
+                title="إلغاء"
+                mode="outlined"
+                onPress={() => router.back()}
+              />
               <CustomButton title="شارك" onPress={onShare} />
             </Box>
           </Modal>
@@ -194,7 +216,7 @@ const QuranTest = () => {
             <ReText variant="BodyLarge" color="background">
               ترتيب الآيات
             </ReText>
-            <TouchableOpacity>
+            <TouchableOpacity onPress={() => router.back()}>
               <Feather name="log-out" size={ms(24)} color={Colors.background} />
             </TouchableOpacity>
           </Box>
