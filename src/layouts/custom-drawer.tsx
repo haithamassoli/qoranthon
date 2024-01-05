@@ -41,13 +41,13 @@ const CustomDrawer = (props: any) => {
             {streak.streakDays} يوم
           </ReText>
         </Box>
-        <Box justifyContent="center" alignItems="center" paddingTop="vxl">
+        <Box justifyContent="center" alignItems="center" paddingTop="v2xl">
           <Feather name="user" color={Colors.tertiary} size={IconSize.xl} />
           <ReText variant="TitleMedium" color="tertiary" marginVertical="vs">
             {user?.role !== "super" ? user?.name : "المدير"}
           </ReText>
         </Box>
-        <Box flex={1}>
+        <Box flex={1} paddingTop="vxs">
           {props.state.routes.map((route: any, index: number) => {
             const { options } = props.descriptors[route.key];
             if (options.drawerIcon === undefined) return null;
