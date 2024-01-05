@@ -7,12 +7,13 @@ import { SearchSchemaType, searchSchema } from "@src/types/schema";
 import { ms, vs } from "@utils/platform";
 import { router, useNavigation } from "expo-router";
 import { useForm } from "react-hook-form";
-import { StyleSheet } from "react-native";
+import { StyleSheet, TouchableOpacity } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import SelectDropdown from "react-native-select-dropdown";
 import ControlledInput from "@components/ui/controlledInput";
 import { useState } from "react";
 import { HelperText } from "react-native-paper";
+import { Ionicons } from "@expo/vector-icons";
 
 const Gamification = () => {
   const navigation: any = useNavigation();
@@ -20,6 +21,7 @@ const Gamification = () => {
     "ما هي الآية التالية؟"
   );
   const [customError, setCustomError] = useState<string>("");
+  const [numOfQuestions, setNumOfQuestions] = useState<string>("5");
   const { control, handleSubmit, reset, setError } = useForm<SearchSchemaType>({
     resolver: zodResolver(searchSchema),
   });
@@ -41,8 +43,6 @@ const Gamification = () => {
       router.push(`/gamification/quran-test?page=${data.search}`);
     } else {
       if (!data.search2) return setCustomError("يجب تحديد الصفحات");
-      if (!data.numOfQuestions || +data.numOfQuestions < 1)
-        return setCustomError("يجب تحديد عدد الأسئلة");
       if (
         isNaN(+data.search) ||
         +data.search < 1 ||
@@ -60,7 +60,7 @@ const Gamification = () => {
       reset();
       router.push(
         // @ts-ignore
-        `/gamification/next-aya-test?page=${data.search}&page2=${data.search2}&numOfQuestions=${data.numOfQuestions}`
+        `/gamification/next-aya-test?page=${data.search}&page2=${data.search2}&numOfQuestions=${numOfQuestions}`
       );
     }
   };
@@ -155,17 +155,52 @@ const Gamification = () => {
                 justifyContent="space-between"
                 alignItems="center"
               >
-                <ReText variant="BodyLarge">عدد</ReText>
-                <Box width={"50%"}>
-                  <ControlledInput
-                    control={control}
-                    noError
-                    name="numOfQuestions"
-                    defaultValue="5"
-                    label="الأسئلة"
-                    mode="outlined"
-                    width={"100%"}
-                  />
+                <ReText variant="BodyLarge">عدد الأسئلة</ReText>
+                <Box
+                  width={"50%"}
+                  flexDirection="row"
+                  alignItems="center"
+                  gap="hs"
+                  justifyContent="center"
+                >
+                  <TouchableOpacity
+                    disabled={numOfQuestions === "1"}
+                    onPress={() =>
+                      setNumOfQuestions((prev) => {
+                        if (+prev > 1) return (+prev - 1).toString();
+                        return prev;
+                      })
+                    }
+                  >
+                    <Ionicons
+                      name="remove-circle-outline"
+                      size={ms(24)}
+                      color={
+                        numOfQuestions === "1"
+                          ? Colors.surfaceDisabled
+                          : Colors.onBackground
+                      }
+                    />
+                  </TouchableOpacity>
+                  <ReText
+                    variant="BodyLarge"
+                    textAlign="center"
+                    lineHeight={ms(32)}
+                    marginHorizontal="hxs"
+                  >
+                    {numOfQuestions}
+                  </ReText>
+                  <TouchableOpacity
+                    onPress={() =>
+                      setNumOfQuestions((prev) => (+prev + 1).toString())
+                    }
+                  >
+                    <Ionicons
+                      name="add-circle-outline"
+                      size={ms(24)}
+                      color={Colors.onBackground}
+                    />
+                  </TouchableOpacity>
                 </Box>
               </Box>
               <HelperText

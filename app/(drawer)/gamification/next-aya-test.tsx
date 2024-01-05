@@ -3,7 +3,6 @@ import { FlatList, Share, StyleSheet, TouchableOpacity } from "react-native";
 import { getQuranByPage } from "@apis/quran";
 import Loading from "@components/loading";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
-import { ImageBackground } from "expo-image";
 import { hs, ms, vs } from "@utils/platform";
 import { width } from "@utils/helper";
 import { Feather } from "@expo/vector-icons";
@@ -40,7 +39,8 @@ const NextAyaTest = () => {
 
   const randomPage = getRandomBetweenPages(+page, +page2);
   const [currentPage, setCurrentPage] = useState(randomPage);
-  const { data, isInitialLoading, refetch } = getQuranByPage(currentPage);
+  const { data, isInitialLoading, isFetching, refetch } =
+    getQuranByPage(currentPage);
 
   const [numErrs, setNumErrs] = useState(0);
   const [visible, setVisible] = useState(false);
@@ -62,10 +62,11 @@ const NextAyaTest = () => {
         return;
       }
       setCurrentPage(getRandomBetweenPages(+page, +page2));
-      setAnswer(undefined);
-      setCounter((prev) => prev + 1);
-      setAyahs([]);
-      refetch();
+
+      refetch().then(() => {
+        setAyahs([]);
+        setCounter((prev) => prev + 1);
+      });
     } else {
       setNumErrs((prev) => prev + 1);
       useStore.setState({ snackbarText: "الاجابة غير صحيحة حاول مرة أخرى" });
@@ -73,25 +74,37 @@ const NextAyaTest = () => {
   };
 
   useEffect(() => {
-    if ((ayahs.length === 0 || !answer) && data?.ayahs) {
-      const randomAyahs = shuffleArr(data?.ayahs || []);
-      setAnswer(randomAyahs[0] || undefined);
-      setAyahs(randomAyahs.slice(1) || []);
+    if (
+      (ayahs.length === 0 || !answer) &&
+      data?.ayahs &&
+      data.ayahs.length > 0
+    ) {
+      const randomAyahs = shuffleArr([...data?.ayahs]);
+      const checkLastItem =
+        randomAyahs[0].number == data.ayahs[data.ayahs.length - 1].number;
+
+      if (checkLastItem) {
+        setAyahs(randomAyahs.slice(0, -1));
+        setAnswer(randomAyahs[randomAyahs.length - 1]);
+      } else {
+        setAyahs(randomAyahs.slice(1));
+        setAnswer(randomAyahs[0]);
+      }
     }
-  }, [data?.ayahs]);
+  }, [isFetching]);
 
   useEffect(() => {
     const interval = setInterval(() => {
-      if (ayahs.length !== 0) {
+      if (visible === false) {
         setSec((prev) => prev + 1);
       }
     }, 1000);
     return () => clearInterval(interval);
-  }, [ayahs]);
+  }, [visible]);
 
   const onShare = () => {
     Share.share({
-      message: `نتائج اختبار الحفظ من تطبيق مجالس\nاختبر نفسك في معرفة الآية التالية\nالصفحة: ${page}\nعدد الأخطاء: ${numErrs}\nالوقت المستغرق: ${sec} ثانية`,
+      message: `نتائج اختبار الحفظ من تطبيق مجالس\nاختبر نفسك في معرفة الآية التالية\nالصفحة من: ${page} إلى ${page2}\nعدد الأخطاء: ${numErrs}\nالوقت المستغرق: ${sec} ثانية`,
     }).then((res) => {
       if (res.action === "sharedAction") {
         router.back();
@@ -150,7 +163,7 @@ const NextAyaTest = () => {
             </ReText>
             <ReText variant="LabelMedium">اختبر نفسك في ترتيب الآيات</ReText>
             <ReText marginTop="vm" variant="LabelMedium">
-              صفحة: {page}
+              الصفحات: من {page} ألى {page2}
             </ReText>
             <ReText variant="LabelMedium">عدد الأخطاء: {numErrs}</ReText>
             <ReText variant="LabelMedium">الوقت المستغرق: {sec} ثانية</ReText>
@@ -193,23 +206,7 @@ const NextAyaTest = () => {
           paddingVertical="vxs"
         >
           <ReText fontFamily="Uthmanic" textAlign="center" variant="TitleLarge">
-            {answer?.text}
-            <ImageBackground
-              source={require("@assets/symbol.png")}
-              contentFit="contain"
-              style={{
-                width: ms(34),
-                height: ms(34),
-              }}
-            >
-              <ReText
-                textAlign="center"
-                lineHeight={ms(30)}
-                variant="LabelMedium"
-              >
-                {answer?.numberInSurah}
-              </ReText>
-            </ImageBackground>
+            {answer?.text.replaceAll("۟", "")}
           </ReText>
         </Box>
         <Box
@@ -249,7 +246,7 @@ const NextAyaTest = () => {
                     textAlign="center"
                     variant="TitleLarge"
                   >
-                    {item.text}
+                    {item.text.replaceAll("۟", "")}
                   </ReText>
                 </Box>
               </TouchableOpacity>

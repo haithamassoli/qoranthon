@@ -9,7 +9,6 @@ import {
 import { getQuranByPage } from "@apis/quran";
 import Loading from "@components/loading";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
-import { ImageBackground } from "expo-image";
 import { hs, ms, vs } from "@utils/platform";
 import { width } from "@utils/helper";
 import { Feather } from "@expo/vector-icons";
@@ -148,23 +147,7 @@ const QuranTest = () => {
                 textAlign="center"
                 variant="TitleLarge"
               >
-                {item.text}
-                <ImageBackground
-                  source={require("@assets/symbol.png")}
-                  contentFit="contain"
-                  style={{
-                    width: ms(34),
-                    height: ms(34),
-                  }}
-                >
-                  <ReText
-                    textAlign="center"
-                    lineHeight={ms(30)}
-                    variant="LabelMedium"
-                  >
-                    {item.numberInSurah}
-                  </ReText>
-                </ImageBackground>
+                {item.text.replaceAll("۟", "")}
               </ReText>
             </Box>
           )}
@@ -235,7 +218,7 @@ const QuranTest = () => {
                     textAlign="center"
                     variant="TitleLarge"
                   >
-                    {item.text}
+                    {item.text.replaceAll("۟", "")}
                   </ReText>
                 </Box>
               </TouchableOpacity>
