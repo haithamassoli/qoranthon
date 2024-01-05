@@ -415,6 +415,7 @@ const QuranScreen = () => {
             renderActivityIndicator={renderActivityIndicator}
             // source={source}
             source={pdfUri}
+            // source={require("@assets/quran.pdf")}
             style={styles.pdfContainer}
           />
         </Box>

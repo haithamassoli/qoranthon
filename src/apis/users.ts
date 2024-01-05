@@ -63,26 +63,64 @@ const getUserById = async (userId: string) => {
       pushNotificationsToken?: string;
       studentId?: string;
       notes?: string;
+      contact?: string;
+      vision?: string;
     };
   } catch (error: any) {
     throw new Error(error.message);
   }
 };
 
-export const getAllAdminsQuery = (enabled: boolean) => {
+export const getAllAdminsQuery = (managerId: string, enabled: boolean) => {
   return useQuery({
-    queryKey: ["admins"],
-    queryFn: () => getAllAdmins(),
+    queryKey: ["admins", managerId],
+    queryFn: () => getAllAdmins(managerId),
     onError: (error: any) => useStore.setState({ snackbarText: error.message }),
     enabled,
   });
 };
 
-const getAllAdmins = async () => {
+const getAllAdmins = async (managerId: string) => {
   try {
     const querySnapshot = await firestore()
       .collection("users")
       .where("role", "==", "admin")
+      .where("managerId", "==", managerId)
+      .orderBy("name")
+      .get();
+    let admins: any[] = [];
+    querySnapshot.forEach((doc) => {
+      admins.push({
+        ...doc.data(),
+        id: doc.id,
+      });
+    });
+    return admins as {
+      id: string;
+      name: string;
+      email: string;
+      phone?: string;
+      role: string;
+      pushNotificationsToken?: string;
+    }[];
+  } catch (error: any) {
+    throw new Error(error.message);
+  }
+};
+export const getAdminsByManagerIdQuery = (managerId: string) => {
+  return useQuery({
+    queryKey: ["admins", managerId],
+    queryFn: () => getAdminsByManagerId(managerId),
+    onError: (error: any) => useStore.setState({ snackbarText: error.message }),
+  });
+};
+
+const getAdminsByManagerId = async (managerId: string) => {
+  try {
+    const querySnapshot = await firestore()
+      .collection("users")
+      .where("role", "==", "admin")
+      .where("managerId", "==", managerId)
       .orderBy("name")
       .get();
     let admins: any[] = [];
@@ -197,6 +235,46 @@ const editMemorized = async (studentId: string, memorized: string) => {
     throw new Error(error.message);
   }
 };
+export const editContactMutation = () => {
+  return useMutation({
+    mutationFn: ({
+      managerId,
+      contact,
+    }: {
+      managerId: string;
+      contact: string;
+    }) => editContact(managerId, contact),
+    onError: (error: any) => useStore.setState({ snackbarText: error.message }),
+  });
+};
+
+const editContact = async (managerId: string, contact: string) => {
+  try {
+    await firestore().collection("users").doc(managerId).update({ contact });
+  } catch (error: any) {
+    throw new Error(error.message);
+  }
+};
+export const editVisionMutation = () => {
+  return useMutation({
+    mutationFn: ({
+      managerId,
+      vision,
+    }: {
+      managerId: string;
+      vision: string;
+    }) => editVision(managerId, vision),
+    onError: (error: any) => useStore.setState({ snackbarText: error.message }),
+  });
+};
+
+const editVision = async (managerId: string, vision: string) => {
+  try {
+    await firestore().collection("users").doc(managerId).update({ vision });
+  } catch (error: any) {
+    throw new Error(error.message);
+  }
+};
 export const editSheikhIdMutation = () => {
   return useMutation({
     mutationFn: ({
@@ -218,18 +296,19 @@ const editSheikhId = async (studentId: string, sheikhId: string) => {
   }
 };
 
-export const getAllUsersQuery = () => {
+export const getAllUsersQuery = (managerId: string) => {
   return useQuery({
     queryKey: ["users"],
-    queryFn: () => getAllUsers(),
+    queryFn: () => getAllUsers(managerId),
   });
 };
 
-const getAllUsers = async () => {
+const getAllUsers = async (managerId: string) => {
   try {
     const querySnapshot = await firestore()
       .collection("users")
       .where("role", "==", "user")
+      .where("managerId", "==", managerId)
       .orderBy("name")
       .get();
     let users: any[] = [];

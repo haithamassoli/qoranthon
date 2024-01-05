@@ -8,9 +8,11 @@ import { Feather } from "@expo/vector-icons";
 import Colors from "@styles/colors";
 import { getAllUsersQuery } from "@apis/users";
 import Loading from "@components/loading";
+import { useStore } from "@zustand/store";
 
 const AllStudents = () => {
-  const { data, isInitialLoading } = getAllUsersQuery();
+  const { user } = useStore();
+  const { data, isInitialLoading } = getAllUsersQuery(user?.id!);
 
   if (isInitialLoading) return <Loading />;
   return (

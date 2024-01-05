@@ -15,12 +15,14 @@ interface IRegisterData {
   name: string;
   email: string;
   password: string;
+  managerId: string;
   phone?: string;
 }
 interface IRegisterStudentData {
   name: string;
   studentId: string;
   sheikhId: string;
+  managerId: string;
   phone?: string;
 }
 
@@ -56,6 +58,8 @@ const login = async (email: string, password: string) => {
             role: doc.data().role,
             name: doc.data().name,
             pushNotificationsToken: doc.data().pushNotificationsToken || null,
+            managerId: doc.data().managerId,
+            phone: doc.data().phone || null,
           };
           storeDataMMKV("user", userWithInfo);
         });
@@ -95,8 +99,9 @@ const studentLogin = async (studentId: string) => {
             studentId: doc.data().studentId,
             role: doc.data().role,
             name: doc.data().name,
-            sheikhId: doc.data().sheikhId || null,
+            sheikhId: doc.data().sheikhId,
             pushNotificationsToken: doc.data().pushNotificationsToken || null,
+            managerId: doc.data().managerId,
           };
         });
         storeDataMMKV("user", userWithInfo);
@@ -110,7 +115,13 @@ const studentLogin = async (studentId: string) => {
 export const registerMutation = () => {
   return useMutation({
     mutationFn: (data: IRegisterData) =>
-      register(data.name, data.email.toLowerCase(), data.password, data.phone),
+      register(
+        data.name,
+        data.email.toLowerCase(),
+        data.password,
+        data.managerId,
+        data.phone
+      ),
     onError: (error: any) => {
       useStore.setState({ snackbarText: error.message });
     },
@@ -121,6 +132,7 @@ const register = async (
   name: string,
   email: string,
   password: string,
+  managerId: string,
   phone?: string
 ) => {
   try {
@@ -133,6 +145,7 @@ const register = async (
         role: "admin",
         phone: phone || null,
         createdAt: new Date(),
+        managerId,
       });
     return;
   } catch (error: any) {
@@ -157,6 +170,7 @@ const addStudent = async (data: IRegisterStudentData) => {
         createdAt: new Date(),
         role: "user",
         name: data.name,
+        managerId: data.managerId,
         sheikhId: data.sheikhId,
         phone: data.phone || null,
         studentId: data.studentId,

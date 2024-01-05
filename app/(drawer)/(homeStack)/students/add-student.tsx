@@ -47,6 +47,7 @@ const AddStudentScreen = () => {
         studentId: data.studentId,
         sheikhId: sheikhId || user?.id!,
         phone: data.phone || "",
+        managerId: user?.managerId || user?.id!,
       },
       {
         onSuccess: () => {

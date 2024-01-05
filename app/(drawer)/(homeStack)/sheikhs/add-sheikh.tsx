@@ -26,6 +26,7 @@ import { useQueryClient } from "@tanstack/react-query";
 
 const AddSheikhScreen = () => {
   const { isConnected } = useNetInfo();
+  const { user } = useStore();
   const queryClient = useQueryClient();
   const { control, handleSubmit } = useForm<RegisterValidationSchemaType>({
     resolver: zodResolver(registerValidationSchema),
@@ -41,6 +42,7 @@ const AddSheikhScreen = () => {
         name: data.name,
         email: data.email,
         password: data.password,
+        managerId: user?.id!,
         phone: data.phone || "",
       },
       {
