@@ -194,7 +194,7 @@ const SheikhScreen = () => {
                   onPressStudent(item.id, item.pushNotificationsToken)
                 }
                 onPressInfo={() =>
-                  router.push(`/students/studentInfo/${item.id}`)
+                  router.push(`/students/studentInfo/${item.id}?role=super`)
                 }
                 item={item}
               />

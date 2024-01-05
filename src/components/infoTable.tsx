@@ -31,6 +31,7 @@ type InfoTableProps = {
   memorized: string;
   studentInfo: string;
   sheikhName?: string;
+  sheikhPhone?: string;
   allSheikhs?: Sheikh[];
 };
 
@@ -47,6 +48,7 @@ const InfoTable = ({
   phone,
   studentInfo,
   sheikhName,
+  sheikhPhone,
   allSheikhs,
   sheikhId,
 }: InfoTableProps) => {
@@ -410,7 +412,7 @@ const InfoTable = ({
             control={control}
             noError
             editable={false}
-            defaultValue={studentSheikh?.phone || "لا يوجد"}
+            defaultValue={studentSheikh?.phone || sheikhPhone || "لا يوجد"}
             name="sheikhPhone"
             label="هاتف الشيخ"
             mode="outlined"

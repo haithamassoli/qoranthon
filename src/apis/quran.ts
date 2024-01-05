@@ -6,6 +6,9 @@ export const getQuranByPage = (page: number) => {
     queryKey: ["quran", page],
     queryFn: () => getQuran(page),
     onError: (error: any) => useStore.setState({ snackbarText: error.message }),
+    cacheTime: 0,
+    staleTime: 0,
+    networkMode: "online",
   });
 };
 

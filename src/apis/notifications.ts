@@ -1,6 +1,5 @@
 import firestore from "@react-native-firebase/firestore";
-import { useMutation, useQuery } from "@tanstack/react-query";
-import { Role } from "@src/types/data";
+import { useMutation } from "@tanstack/react-query";
 import { sendNotification } from "@utils/sendNotification";
 import { useStore } from "@zustand/store";
 
@@ -49,24 +48,4 @@ export const sendNotificationMutation = () => {
     }) => sendNotification(tokens, title, body),
     onError: (error: any) => useStore.setState({ snackbarText: error.message }),
   });
-};
-
-export const getNotificationTokensQuery = (role: Role) => {
-  return useQuery({
-    queryKey: ["notificationTokens"],
-    queryFn: () => getNotificationTokens(),
-    enabled: role === "super",
-    onError: (error: any) => useStore.setState({ snackbarText: error.message }),
-  });
-};
-
-const getNotificationTokens = async () => {
-  try {
-    const tokens = await firestore()
-      .collection("pushNotificationsTokens")
-      .get();
-    return tokens.docs.map((token) => token.data().pushNotificationsToken);
-  } catch (error: any) {
-    throw new Error(error.message);
-  }
 };

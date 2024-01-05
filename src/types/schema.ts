@@ -163,7 +163,6 @@ export const searchSchema = z.object({
     })
     .max(3, "يجب أن يكون البحث رقمًا بين 1 و 604"),
   search2: z.optional(z.string()),
-  numOfQuestions: z.optional(z.string()),
 });
 
 export type SearchSchemaType = z.infer<typeof searchSchema>;
@@ -216,4 +215,6 @@ export interface IUser {
   studentId?: string;
   pushNotificationsToken?: string;
   sheikhId?: string;
+  managerId?: string;
+  phone?: string;
 }
