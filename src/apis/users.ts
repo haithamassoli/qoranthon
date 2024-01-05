@@ -235,46 +235,7 @@ const editMemorized = async (studentId: string, memorized: string) => {
     throw new Error(error.message);
   }
 };
-export const editContactMutation = () => {
-  return useMutation({
-    mutationFn: ({
-      managerId,
-      contact,
-    }: {
-      managerId: string;
-      contact: string;
-    }) => editContact(managerId, contact),
-    onError: (error: any) => useStore.setState({ snackbarText: error.message }),
-  });
-};
 
-const editContact = async (managerId: string, contact: string) => {
-  try {
-    await firestore().collection("users").doc(managerId).update({ contact });
-  } catch (error: any) {
-    throw new Error(error.message);
-  }
-};
-export const editVisionMutation = () => {
-  return useMutation({
-    mutationFn: ({
-      managerId,
-      vision,
-    }: {
-      managerId: string;
-      vision: string;
-    }) => editVision(managerId, vision),
-    onError: (error: any) => useStore.setState({ snackbarText: error.message }),
-  });
-};
-
-const editVision = async (managerId: string, vision: string) => {
-  try {
-    await firestore().collection("users").doc(managerId).update({ vision });
-  } catch (error: any) {
-    throw new Error(error.message);
-  }
-};
 export const editSheikhIdMutation = () => {
   return useMutation({
     mutationFn: ({
