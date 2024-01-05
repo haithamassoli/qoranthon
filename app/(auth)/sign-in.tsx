@@ -75,11 +75,6 @@ const SignIn = () => {
               </ReText>
             </TouchableOpacity>
           </Box>
-          <TouchableOpacity onPress={() => router.push("/contact")}>
-            <ReText marginBottom="hxl" textAlign="center" variant="BodyMedium">
-              تواصل معنا
-            </ReText>
-          </TouchableOpacity>
         </Box>
       </Box>
     </>
