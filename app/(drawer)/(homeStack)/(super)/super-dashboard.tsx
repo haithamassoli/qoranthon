@@ -1,8 +1,8 @@
 import { sendNotificationMutation } from "@apis/notifications";
-import { getAllAdminsQuery } from "@apis/users";
+import { getAdminsByManagerIdQuery } from "@apis/users";
 import Loading from "@components/loading";
 import Snackbar from "@components/snackbar";
-import { Feather } from "@expo/vector-icons";
+import { Feather, Ionicons } from "@expo/vector-icons";
 import { zodResolver } from "@hookform/resolvers/zod";
 import Colors from "@styles/colors";
 import { Box, ReText } from "@styles/theme";
@@ -33,7 +33,8 @@ const SuperScreen = () => {
     isInitialLoading: isLoading,
     refetch,
     isFetching,
-  } = getAllAdminsQuery(true);
+  } = getAdminsByManagerIdQuery(user?.id!);
+
   const [selected, setSelected] = useState<string[]>([]);
   const [selecting, setSelecting] = useState(false);
   const [isModalVisible, setIsModalVisible] = useState(false);
@@ -68,6 +69,23 @@ const SuperScreen = () => {
       }
     } else {
       router.push(`/sheikhs/${id}?sheikhName=${sheikhName}`);
+    }
+  };
+
+  const onSelectAll = () => {
+    if (selected.length === data?.length) {
+      setSelected([]);
+    } else {
+      const arr = data
+        ?.map((item) => item.pushNotificationsToken)
+        .filter((item) => item);
+
+      if (arr?.length !== data?.length) {
+        useStore.setState({
+          snackbarText: "هناك طلاب لم يفعلوا الإشعارات",
+        });
+      }
+      setSelected(arr);
     }
   };
 
@@ -158,6 +176,15 @@ const SuperScreen = () => {
             <TouchableOpacity onPress={() => router.push("/students/all")}>
               <Feather name="users" size={ms(24)} color={Colors.onBackground} />
             </TouchableOpacity>
+            {selecting && (
+              <TouchableOpacity onPress={onSelectAll}>
+                <Ionicons
+                  name="checkmark-done"
+                  size={ms(24)}
+                  color={Colors.onBackground}
+                />
+              </TouchableOpacity>
+            )}
             <TouchableOpacity onPress={onPressBell}>
               <Feather
                 name={selecting ? "bell-off" : "bell"}

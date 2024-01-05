@@ -4,7 +4,7 @@ import Snackbar from "@components/snackbar";
 import StudentCard from "@components/studentCard";
 import ControlledInput from "@components/ui/controlledInput";
 import CustomButton from "@components/ui/customButton";
-import { Feather } from "@expo/vector-icons";
+import { Feather, Ionicons } from "@expo/vector-icons";
 import { zodResolver } from "@hookform/resolvers/zod";
 import Colors from "@styles/colors";
 import { Box, ReText } from "@styles/theme";
@@ -76,6 +76,23 @@ const AdminScreen = () => {
       }
     } else {
       router.push(`/students/${id}`);
+    }
+  };
+
+  const onSelectAll = () => {
+    if (selected.length === data?.length) {
+      setSelected([]);
+    } else {
+      const arr = data
+        ?.map((item) => item.pushNotificationsToken)
+        .filter((item) => item);
+
+      if (arr?.length !== data?.length) {
+        useStore.setState({
+          snackbarText: "هناك طلاب لم يفعلوا الإشعارات",
+        });
+      }
+      setSelected(arr);
     }
   };
 
@@ -160,6 +177,15 @@ const AdminScreen = () => {
             </ReText>
           </Box>
           <Box flexDirection="row" gap="hs" alignItems="center">
+            {selecting && (
+              <TouchableOpacity onPress={onSelectAll}>
+                <Ionicons
+                  name="checkmark-done"
+                  size={ms(24)}
+                  color={Colors.onBackground}
+                />
+              </TouchableOpacity>
+            )}
             <TouchableOpacity onPress={onPressBell}>
               <Feather
                 name={selecting ? "bell-off" : "bell"}
@@ -209,7 +235,7 @@ const AdminScreen = () => {
                 }
                 onPressInfo={() =>
                   router.push(
-                    `/students/studentInfo/${item.id}?sheikhName=${user?.name}`
+                    `/students/studentInfo/${item.id}?sheikhName=${user?.name}&sheikhPhone=${user?.phone}`
                   )
                 }
                 item={item}
