@@ -173,6 +173,8 @@ const QuranTest = () => {
           bottom={0}
           left={0}
           backgroundColor="onSurfaceVariant"
+          borderTopLeftRadius="l"
+          borderTopRightRadius="l"
           style={
             isDown
               ? {
