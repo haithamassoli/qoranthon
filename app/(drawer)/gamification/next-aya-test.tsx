@@ -104,7 +104,7 @@ const NextAyaTest = () => {
 
   const onShare = () => {
     Share.share({
-      message: `نتائج اختبار الحفظ من تطبيق مجالس\nاختبر نفسك في معرفة الآية التالية\nالصفحة من: ${page} إلى ${page2}\nعدد الأخطاء: ${numErrs}\nالوقت المستغرق: ${sec} ثانية`,
+      message: `نتائج اختبار الحفظ من تطبيق مجالس\nاختبر نفسك في معرفة الآية التالية\nعدد الأسئلة: ${numOfQuestions}\nالصفحة من: ${page} إلى ${page2}\nعدد الأخطاء: ${numErrs}\nالوقت المستغرق: ${sec} ثانية`,
     }).then((res) => {
       if (res.action === "sharedAction") {
         router.back();
@@ -163,7 +163,10 @@ const NextAyaTest = () => {
             </ReText>
             <ReText variant="LabelMedium">اختبر نفسك في ترتيب الآيات</ReText>
             <ReText marginTop="vm" variant="LabelMedium">
-              الصفحات: من {page} ألى {page2}
+              عدد الأسئلة: ${numOfQuestions}
+            </ReText>
+            <ReText variant="LabelMedium">
+              الصفحات: من {page} إلى {page2}
             </ReText>
             <ReText variant="LabelMedium">عدد الأخطاء: {numErrs}</ReText>
             <ReText variant="LabelMedium">الوقت المستغرق: {sec} ثانية</ReText>
