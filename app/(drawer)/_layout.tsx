@@ -54,11 +54,11 @@ const HomeDrawer = () => {
         }}
       />
       <Drawer.Screen
-        name="vision"
+        name="leaderboard"
         options={{
-          title: "رؤية المركز وهدفه",
+          title: "لوحة المتصدرين",
           drawerIcon: ({ color }) => (
-            <Feather name="eye" size={IconSize.m} color={color} />
+            <Ionicons name="trophy-outline" size={IconSize.m} color={color} />
           ),
         }}
       />
