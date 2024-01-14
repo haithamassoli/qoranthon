@@ -162,6 +162,16 @@ const QuranScreen = () => {
             sessionRate: data.sessionRate,
             werd: data.werd,
             notes: data.notes,
+            points:
+              data.sessionRate === "ممتاز"
+                ? 3
+                : data.sessionRate === "جيد جدا"
+                ? 2
+                : data.sessionRate === "جيد"
+                ? 1
+                : data.sessionRate === "مقبول"
+                ? 0
+                : -3,
           },
           {
             onSuccess: () => {

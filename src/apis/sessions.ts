@@ -13,6 +13,7 @@ type Session = {
   sessionRate: SessionRate;
   notes?: string;
   werd: string;
+  points: number;
 };
 
 export const addSessionMutation = () => {
@@ -74,6 +75,7 @@ const getStudentSessions = async (studentId: string) => {
       sessionRate: SessionRate;
       notes?: string;
       werd: string;
+      points: number;
     }[];
   } catch (error: any) {
     throw new Error(error.message);
@@ -111,6 +113,7 @@ const getSessionById = async (studentId: string, sessionId: string) => {
       studentId: string;
       sessionType: SessionType;
       sessionRate: SessionRate;
+      points: number;
     };
   } catch (error: any) {
     throw new Error(error.message);
