@@ -24,7 +24,7 @@ const Leaderboard = () => {
       } else {
         acc.push(item);
       }
-      return acc;
+      return acc.sort((a, b) => b.points - a.points);
     },
     [] as {
       id: string;
@@ -32,8 +32,6 @@ const Leaderboard = () => {
       points: number;
     }[]
   );
-
-  console.log(mergedData);
 
   if (isInitialLoading) return <Loading />;
 
@@ -46,48 +44,111 @@ const Leaderboard = () => {
           ),
         }}
       />
+      <Box height={vs(36)} />
       <Box
         flexDirection="row"
         paddingHorizontal="hl"
         alignItems="flex-end"
-        marginTop="vxl"
+        marginTop="v2xl"
       >
         <Box
           width={"33%"}
           height={vs(62)}
+          justifyContent="center"
           style={{
-            backgroundColor: "#CD7F32",
+            backgroundColor: "#CC8F32",
           }}
         >
-          <ReText variant="TitleSmall" textAlign="center">
-            {fakeData?.[2]?.name}
+          <Ionicons
+            name="trophy-outline"
+            style={{
+              position: "absolute",
+              top: vs(-42),
+              left: "32%",
+            }}
+            size={ms(42)}
+            color="#CC8F32"
+          />
+          <ReText
+            variant="TitleSmall"
+            fontFamily="CairoBold"
+            textAlign="center"
+          >
+            {mergedData?.[2]?.name}
+          </ReText>
+          <ReText variant="BodyLarge" fontFamily="CairoBold" textAlign="center">
+            {mergedData?.[2]?.points}
           </ReText>
         </Box>
         <Box
           width={"33%"}
           height={vs(132)}
+          justifyContent="center"
           style={{
             backgroundColor: "#FFD700",
           }}
         >
-          <ReText variant="TitleSmall" textAlign="center">
-            {fakeData?.[0]?.name}
+          <Ionicons
+            name="trophy-outline"
+            style={{
+              position: "absolute",
+              top: vs(-42),
+              left: "32%",
+            }}
+            size={ms(42)}
+            color="#FFD700"
+          />
+          <ReText
+            variant="TitleSmall"
+            fontFamily="CairoBold"
+            textAlign="center"
+          >
+            {mergedData?.[0]?.name}
+          </ReText>
+          <ReText
+            variant="BodyMedium"
+            fontFamily="CairoBold"
+            textAlign="center"
+          >
+            {mergedData?.[0]?.points}
           </ReText>
         </Box>
         <Box
           width={"33%"}
           height={vs(88)}
+          justifyContent="center"
           style={{
             backgroundColor: "#C0C0C0",
           }}
         >
-          <ReText variant="TitleSmall" textAlign="center">
-            {fakeData?.[1]?.name}
+          <Ionicons
+            name="trophy-outline"
+            style={{
+              position: "absolute",
+              top: vs(-42),
+              left: "32%",
+            }}
+            size={ms(42)}
+            color="#C0C0C0"
+          />
+          <ReText
+            variant="TitleSmall"
+            fontFamily="CairoBold"
+            textAlign="center"
+          >
+            {mergedData?.[1]?.name}
+          </ReText>
+          <ReText
+            variant="BodyMedium"
+            fontFamily="CairoBold"
+            textAlign="center"
+          >
+            {mergedData?.[1]?.points}
           </ReText>
         </Box>
       </Box>
       <FlatList
-        data={fakeData}
+        data={mergedData}
         renderItem={({ item, index }) => (
           <>
             {![0, 1, 2].includes(index) && (
@@ -100,11 +161,11 @@ const Leaderboard = () => {
                   paddingHorizontal: vs(15),
                 }}
               >
-                <ReText variant="BodyMedium">
+                <ReText variant="BodyLarge">
                   {index + 1}. {item.name}
                 </ReText>
-                <ReText variant="BodyMedium">
-                  <Ionicons name="trophy-outline" size={ms(14)} color="black" />
+                <ReText variant="BodyLarge">
+                  <Ionicons name="medal-outline" size={ms(18)} color="black" />
                   {item.points}
                 </ReText>
               </Box>
@@ -123,54 +184,3 @@ const Leaderboard = () => {
 };
 
 export default Leaderboard;
-
-const fakeData = [
-  {
-    createdAt: "2024-01-01T21:00:00.622Z",
-    id: "sXF5XMpCTBGRvsssssZiBIN7K",
-    name: "عبيدة",
-    points: 10,
-  },
-  {
-    createdAt: "2024-01-04T21:00:00.845Z",
-    id: "m1cgPoWqynasdabXnRl20Uz4",
-    name: "إبراهيم الخطيب ",
-    points: 53,
-  },
-  {
-    createdAt: "2024-01-01T21:00:00.622Z",
-    id: "sXF5XMpCTBfdGRvZiBIN7K",
-    name: " 1عبيدة",
-    points: 10,
-  },
-  {
-    createdAt: "2024-01-04T21:00:00.845Z",
-    id: "m1cgPodsWqynbXnRl20Uz4",
-    name: "إبراهيم الخsssطيب ",
-    points: 53,
-  },
-  {
-    createdAt: "2024-01-01T21:00:00.622Z",
-    id: "sXF5XMpCaaTBGRvZiBIN7K",
-    name: "عبssيدة",
-    points: 10,
-  },
-  {
-    createdAt: "2024-01-04T21:00:00.845Z",
-    id: "m1cgPoWqynbXnRla20Uz4",
-    name: "إبراهيم ssالخطيب ",
-    points: 53,
-  },
-  {
-    createdAt: "2024-01-01T21:00:00.622Z",
-    id: "sXF5XMpCTBGRvZiBIsN7K",
-    name: "عبيsدة",
-    points: 10,
-  },
-  {
-    createdAt: "2024-01-04T21:00:00.845Z",
-    id: "m1cgPoWqynbXnRl20Usadz4",
-    name: "إبراهيم sالخطيب ",
-    points: 53,
-  },
-];
