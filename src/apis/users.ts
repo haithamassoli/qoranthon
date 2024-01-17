@@ -264,7 +264,7 @@ export const getAllUsersQuery = (managerId: string) => {
   });
 };
 
-const getAllUsers = async (managerId: string) => {
+export const getAllUsers = async (managerId: string) => {
   try {
     const querySnapshot = await firestore()
       .collection("users")
