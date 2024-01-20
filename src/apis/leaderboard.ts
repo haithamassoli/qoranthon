@@ -1,5 +1,5 @@
 import firestore from "@react-native-firebase/firestore";
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { useQuery } from "@tanstack/react-query";
 import { getAllUsers } from "./users";
 
 export const getUsersLeaderboardQuery = (managerId: string) => {
