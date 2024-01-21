@@ -129,7 +129,7 @@ const SessionCard = ({
             </Box>
             <Box flexDirection="row" justifyContent="space-between">
               <ReText variant="BodyMedium">{dateFromNow(createdAt)}</ReText>
-              <ReText variant="BodyMedium">{`${day}/${month}`}</ReText>
+              <ReText variant="BodyMedium">{`${day}/${month + 1}`}</ReText>
             </Box>
           </>
         )}
