@@ -3,7 +3,7 @@ import HeaderRight from "@components/headerRight";
 import Loading from "@components/loading";
 import { Ionicons } from "@expo/vector-icons";
 import { Box, ReText } from "@styles/theme";
-import { ms, vs } from "@utils/platform";
+import { hs, ms, vs } from "@utils/platform";
 import { useStore } from "@zustand/store";
 import { useNavigation } from "expo-router";
 import { Drawer } from "expo-router/drawer";
@@ -47,7 +47,7 @@ const Leaderboard = () => {
       <Box height={vs(36)} />
       <Box
         flexDirection="row"
-        paddingHorizontal="hl"
+        paddingHorizontal="hs"
         alignItems="flex-end"
         marginTop="v2xl"
       >
@@ -149,6 +149,9 @@ const Leaderboard = () => {
       </Box>
       <FlatList
         data={mergedData}
+        contentContainerStyle={{
+          paddingHorizontal: hs(8),
+        }}
         renderItem={({ item, index }) => (
           <>
             {![0, 1, 2].includes(index) && (
@@ -165,7 +168,7 @@ const Leaderboard = () => {
                   {index + 1}. {item.name}
                 </ReText>
                 <ReText variant="BodyLarge">
-                  <Ionicons name="medal-outline" size={ms(18)} color="black" />
+                  <Ionicons name="trophy-outline" size={ms(18)} color="black" />
                   {item.points}
                 </ReText>
               </Box>
