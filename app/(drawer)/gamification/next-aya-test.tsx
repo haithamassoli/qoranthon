@@ -15,6 +15,8 @@ import { Modal, Portal } from "react-native-paper";
 import CustomButton from "@components/ui/customButton";
 import { addQuizzesCountMutation } from "@apis/users";
 import { useQueryClient } from "@tanstack/react-query";
+import NoConnection from "@components/noConnection";
+import { useNetInfo } from "@react-native-community/netinfo";
 
 const shuffleArr = (arr: any[]) => {
   for (let i = arr.length - 1; i > 0; i--) {
@@ -38,6 +40,8 @@ const NextAyaTest = () => {
     page2: string;
     numOfQuestions: string;
   } = useLocalSearchParams();
+
+  const { isConnected } = useNetInfo();
 
   const randomPage = getRandomBetweenPages(+page, +page2);
   const { user } = useStore();
@@ -132,6 +136,7 @@ const NextAyaTest = () => {
     });
   };
 
+  if (isConnected === false) return <NoConnection refetch={refetch} />;
   if (isInitialLoading) return <Loading />;
 
   return (

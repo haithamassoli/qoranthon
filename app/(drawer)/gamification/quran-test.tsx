@@ -21,6 +21,8 @@ import { Modal, Portal } from "react-native-paper";
 import CustomButton from "@components/ui/customButton";
 import { addQuizzesCountMutation } from "@apis/users";
 import { useQueryClient } from "@tanstack/react-query";
+import { useNetInfo } from "@react-native-community/netinfo";
+import NoConnection from "@components/noConnection";
 
 const shuffleArr = (arr: any[]) => {
   for (let i = arr.length - 1; i > 0; i--) {
@@ -36,8 +38,9 @@ const QuranTest = () => {
   }: {
     page: string;
   } = useLocalSearchParams();
+  const { isConnected } = useNetInfo();
   const queryClient = useQueryClient();
-  const { data, isInitialLoading } = getQuranByPage(+page);
+  const { data, isInitialLoading, refetch } = getQuranByPage(+page);
   const { user } = useStore();
   const { mutate } = addQuizzesCountMutation();
   const [numErrs, setNumErrs] = useState(0);
@@ -107,8 +110,9 @@ const QuranTest = () => {
       }
     });
   };
-
+  if (isConnected === false) return <NoConnection refetch={refetch} />;
   if (isInitialLoading) return <Loading />;
+
   return (
     <>
       <Snackbar />
