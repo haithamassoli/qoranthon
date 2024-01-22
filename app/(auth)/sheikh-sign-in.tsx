@@ -24,9 +24,10 @@ import { router } from "expo-router";
 
 const SheikhSignIn = () => {
   const { isConnected } = useNetInfo();
-  const { control, handleSubmit } = useForm<LoginValidationSchemaType>({
-    resolver: zodResolver(loginValidationSchema),
-  });
+  const { control, handleSubmit, setFocus } =
+    useForm<LoginValidationSchemaType>({
+      resolver: zodResolver(loginValidationSchema),
+    });
   const [showPassword, setShowPassword] = useState(false);
 
   const { mutate, isLoading } = loginMutation();
@@ -67,6 +68,7 @@ const SheikhSignIn = () => {
               keyboardType="email-address"
               autoComplete="email"
               textContentType="emailAddress"
+              onSubmitEditing={() => setFocus("password")}
             />
             <ControlledInput
               control={control}
@@ -74,6 +76,7 @@ const SheikhSignIn = () => {
               textContentType="password"
               secureTextEntry={!showPassword}
               autoCapitalize="none"
+              onSubmitEditing={handleSubmit(onSubmit)}
               right={
                 <TextInput.Icon
                   icon={showPassword ? "eye-off" : "eye"}

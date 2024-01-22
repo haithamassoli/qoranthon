@@ -47,7 +47,7 @@ const AdminScreen = () => {
   } = getAllSheikhStudentsQuery(user?.id!);
   const { mutate, isLoading: isSending } = sendNotificationMutation();
 
-  const { control, handleSubmit } = useForm<NotificationSchemaType>({
+  const { control, handleSubmit, setFocus } = useForm<NotificationSchemaType>({
     resolver: zodResolver(notificationSchema),
   });
 
@@ -148,11 +148,13 @@ const AdminScreen = () => {
                   control={control}
                   name="title"
                   label="عنوان الإشعار"
+                  onSubmitEditing={() => setFocus("body")}
                 />
                 <ControlledInput
                   control={control}
                   name="body"
                   label="نص الإشعار"
+                  onSubmitEditing={handleSubmit(onSendNotification)}
                 />
                 <CustomButton
                   title="إرسال"

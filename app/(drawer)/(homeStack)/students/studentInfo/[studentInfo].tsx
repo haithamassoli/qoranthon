@@ -99,6 +99,7 @@ const StudentInfo = () => {
     <>
       <Snackbar />
       <ScrollView
+        keyboardShouldPersistTaps="handled"
         style={{
           flexGrow: 1,
           marginHorizontal: hs(16),

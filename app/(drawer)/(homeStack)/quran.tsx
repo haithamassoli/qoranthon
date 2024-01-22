@@ -1,6 +1,11 @@
 import { Box, ReText } from "@styles/theme";
 import { width } from "@utils/helper";
-import { BackHandler, TouchableOpacity, StyleSheet } from "react-native";
+import {
+  BackHandler,
+  TouchableOpacity,
+  StyleSheet,
+  Keyboard,
+} from "react-native";
 import { hs, isIOS, ms, vs } from "@utils/platform";
 import { useCallback, useEffect, useRef, useState } from "react";
 import {
@@ -254,6 +259,7 @@ const QuranScreen = () => {
                 name="werd"
                 label="الورد"
                 mode="outlined"
+                onSubmitEditing={() => Keyboard.dismiss()}
               />
               <Controller
                 control={control}
@@ -366,6 +372,7 @@ const QuranScreen = () => {
                 inputMode="text"
                 textAlignVertical="top"
                 contentStyle={styles.notesContent}
+                onSubmitEditing={() => Keyboard.dismiss()}
                 multiline
                 mode="outlined"
               />
@@ -407,6 +414,7 @@ const QuranScreen = () => {
                 placeholder="ادحل الصفحة المطلوبة"
                 label="الصفحة"
                 width={"98%"}
+                onSubmitEditing={searchHandleSubmit(onSearch)}
                 right={
                   <TextInput.Icon
                     icon="magnify"

@@ -15,6 +15,7 @@ import {
 } from "@src/types/schema";
 import { useQueryClient } from "@tanstack/react-query";
 import { editEmailMutation, editPasswordMutation } from "@apis/auth";
+import { Keyboard } from "react-native";
 
 type InfoTableProps = {
   id: string;
@@ -156,6 +157,7 @@ const SheikhInfoTable = ({
             control={control}
             noError
             editable={user?.role !== "user"}
+            onSubmitEditing={() => Keyboard.dismiss()}
             defaultValue={name}
             name="name"
             label="الاسم"
@@ -197,6 +199,7 @@ const SheikhInfoTable = ({
             control={control}
             noError
             editable={user?.role !== "user"}
+            onSubmitEditing={() => Keyboard.dismiss()}
             defaultValue={phone}
             name="phone"
             label="رقم الهاتف"
@@ -237,6 +240,7 @@ const SheikhInfoTable = ({
             control={control}
             noError
             editable={user?.role !== "user"}
+            onSubmitEditing={() => Keyboard.dismiss()}
             defaultValue={email}
             name="email"
             label="البريد الالكتروني"
@@ -278,6 +282,7 @@ const SheikhInfoTable = ({
             noError
             editable={user?.role !== "user"}
             defaultValue={password}
+            onSubmitEditing={() => Keyboard.dismiss()}
             name="password"
             label="كلمة المرور"
             mode="outlined"

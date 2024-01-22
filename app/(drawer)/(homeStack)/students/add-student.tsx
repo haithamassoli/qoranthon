@@ -20,14 +20,14 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import Colors from "@styles/colors";
 import { useStore } from "@zustand/store";
 import { router, useLocalSearchParams } from "expo-router";
-import { TouchableOpacity } from "react-native";
+import { Keyboard, TouchableOpacity } from "react-native";
 import { useQueryClient } from "@tanstack/react-query";
 
 const AddStudentScreen = () => {
   const { isConnected } = useNetInfo();
   const queryClient = useQueryClient();
   const { user } = useStore();
-  const { control, handleSubmit, setValue } =
+  const { control, handleSubmit, setValue, setFocus } =
     useForm<StudentValidationSchemaType>({
       resolver: zodResolver(studentValidationSchema),
     });
@@ -89,12 +89,14 @@ const AddStudentScreen = () => {
             autoCapitalize="none"
             autoComplete="name"
             textContentType="name"
+            onSubmitEditing={() => setFocus("studentId")}
           />
           <ControlledInput
             control={control}
             name="studentId"
             label="رقم تسجيل الطالب"
             keyboardType="number-pad"
+            onSubmitEditing={() => setFocus("phone")}
             right={
               <TextInput.Icon
                 icon={"auto-fix"}
@@ -110,6 +112,7 @@ const AddStudentScreen = () => {
             autoCapitalize="none"
             textContentType="telephoneNumber"
             keyboardType="phone-pad"
+            onSubmitEditing={() => Keyboard.dismiss()}
           />
           <Box height={vs(32)} />
           <CustomButton

@@ -22,9 +22,10 @@ const Gamification = () => {
   );
   const [customError, setCustomError] = useState<string>("");
   const [numOfQuestions, setNumOfQuestions] = useState<string>("5");
-  const { control, handleSubmit, reset, setError } = useForm<SearchSchemaType>({
-    resolver: zodResolver(searchSchema),
-  });
+  const { control, handleSubmit, reset, setError, setFocus } =
+    useForm<SearchSchemaType>({
+      resolver: zodResolver(searchSchema),
+    });
 
   const onSearch = (data: SearchSchemaType) => {
     if (type === "ترتيب الآيات") {
@@ -122,6 +123,7 @@ const Gamification = () => {
               control={control}
               name="search"
               placeholder="ادحل الصفحة المطلوبة"
+              onSubmitEditing={handleSubmit(onSearch)}
               label="الصفحة"
               mode="outlined"
               width={"100%"}
@@ -141,6 +143,7 @@ const Gamification = () => {
                     name="search"
                     label="الصفحة"
                     mode="outlined"
+                    onSubmitEditing={() => setFocus("search2")}
                     width={"100%"}
                   />
                 </Box>
@@ -156,6 +159,7 @@ const Gamification = () => {
                     control={control}
                     noError
                     name="search2"
+                    onSubmitEditing={handleSubmit(onSearch)}
                     label="الصفحة"
                     mode="outlined"
                     width={"100%"}

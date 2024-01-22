@@ -28,9 +28,10 @@ const AddSheikhScreen = () => {
   const { isConnected } = useNetInfo();
   const { user } = useStore();
   const queryClient = useQueryClient();
-  const { control, handleSubmit } = useForm<RegisterValidationSchemaType>({
-    resolver: zodResolver(registerValidationSchema),
-  });
+  const { control, handleSubmit, setFocus } =
+    useForm<RegisterValidationSchemaType>({
+      resolver: zodResolver(registerValidationSchema),
+    });
   const [showPassword, setShowPassword] = useState(false);
 
   const { mutate, isLoading } = registerMutation();
@@ -85,6 +86,7 @@ const AddSheikhScreen = () => {
             autoCapitalize="none"
             autoComplete="name"
             textContentType="name"
+            onSubmitEditing={() => setFocus("phone")}
           />
           <ControlledInput
             control={control}
@@ -93,6 +95,7 @@ const AddSheikhScreen = () => {
             autoCapitalize="none"
             textContentType="telephoneNumber"
             keyboardType="phone-pad"
+            onSubmitEditing={() => setFocus("email")}
           />
           <ControlledInput
             control={control}
@@ -102,6 +105,7 @@ const AddSheikhScreen = () => {
             keyboardType="email-address"
             autoComplete="email"
             textContentType="emailAddress"
+            onSubmitEditing={() => setFocus("password")}
           />
           <ControlledInput
             control={control}
@@ -109,6 +113,7 @@ const AddSheikhScreen = () => {
             textContentType="password"
             secureTextEntry={!showPassword}
             autoCapitalize="none"
+            onSubmitEditing={handleSubmit(onSubmit)}
             right={
               <TextInput.Icon
                 icon={showPassword ? "eye-off" : "eye"}

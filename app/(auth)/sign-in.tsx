@@ -57,6 +57,7 @@ const SignIn = () => {
               name="studentId"
               label="رقم تسجيل الطالب"
               keyboardType="number-pad"
+              onSubmitEditing={handleSubmit(onSubmit)}
             />
             <Box height={vs(32)} />
             <CustomButton

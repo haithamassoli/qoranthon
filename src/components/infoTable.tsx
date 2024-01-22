@@ -20,7 +20,7 @@ import {
   editStudentValidationSchema,
 } from "@src/types/schema";
 import SelectDropdown from "react-native-select-dropdown";
-import { StyleSheet } from "react-native";
+import { Keyboard, StyleSheet } from "react-native";
 import { useQueryClient } from "@tanstack/react-query";
 
 type InfoTableProps = {
@@ -188,6 +188,7 @@ const InfoTable = ({
             name="name"
             label="الاسم"
             mode="outlined"
+            onSubmitEditing={() => Keyboard.dismiss()}
             right={
               <TextInput.Icon
                 icon={() =>
@@ -223,6 +224,7 @@ const InfoTable = ({
             control={control}
             noError
             editable={user?.role !== "user"}
+            onSubmitEditing={() => Keyboard.dismiss()}
             defaultValue={memorized}
             name="memorized"
             label="المحفوظ"
@@ -264,6 +266,7 @@ const InfoTable = ({
             editable={user?.role !== "user"}
             defaultValue={studentId}
             name="studentId"
+            onSubmitEditing={() => Keyboard.dismiss()}
             label="رقم تسجيل الدخول"
             mode="outlined"
             right={
@@ -304,6 +307,7 @@ const InfoTable = ({
             editable={user?.role !== "user"}
             defaultValue={phone}
             name="phone"
+            onSubmitEditing={() => Keyboard.dismiss()}
             label="رقم الهاتف"
             mode="outlined"
             right={
@@ -343,6 +347,7 @@ const InfoTable = ({
               control={control}
               noError
               defaultValue={sheikhName}
+              onSubmitEditing={() => Keyboard.dismiss()}
               name="sheikh"
               editable={false}
               label="شيخ الطالب"
@@ -418,6 +423,7 @@ const InfoTable = ({
           <ControlledInput
             control={control}
             noError
+            onSubmitEditing={() => Keyboard.dismiss()}
             editable={false}
             defaultValue={studentSheikh?.phone || sheikhPhone || "لا يوجد"}
             name="sheikhPhone"
