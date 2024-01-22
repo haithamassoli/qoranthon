@@ -13,7 +13,7 @@ import SelectDropdown from "react-native-select-dropdown";
 import ControlledInput from "@components/ui/controlledInput";
 import { useState } from "react";
 import { HelperText } from "react-native-paper";
-import { Ionicons } from "@expo/vector-icons";
+import { Feather, Ionicons } from "@expo/vector-icons";
 
 const Gamification = () => {
   const navigation: any = useNavigation();
@@ -103,6 +103,13 @@ const Gamification = () => {
           }}
           defaultButtonText="نوع الجلسة"
           dropdownStyle={styles.dropdown}
+          renderDropdownIcon={() => (
+            <Feather
+              name="chevron-down"
+              size={ms(20)}
+              color={Colors.onBackground}
+            />
+          )}
           rowStyle={styles.row}
           defaultValueByIndex={0}
           rowTextStyle={styles.rowText}

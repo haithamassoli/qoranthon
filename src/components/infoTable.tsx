@@ -352,6 +352,13 @@ const InfoTable = ({
           {allSheikhs && (
             <SelectDropdown
               data={allSheikhs}
+              renderDropdownIcon={() => (
+                <Feather
+                  name="chevron-down"
+                  size={ms(20)}
+                  color={Colors.onBackground}
+                />
+              )}
               buttonStyle={{
                 width: "100%",
                 height: vs(48),

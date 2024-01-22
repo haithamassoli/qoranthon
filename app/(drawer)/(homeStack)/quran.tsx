@@ -268,6 +268,13 @@ const QuranScreen = () => {
                   <>
                     <SelectDropdown
                       data={["جديد", "مراجعة"]}
+                      renderDropdownIcon={() => (
+                        <Feather
+                          name="chevron-down"
+                          size={ms(20)}
+                          color={Colors.onBackground}
+                        />
+                      )}
                       onBlur={onBlur}
                       buttonStyle={{
                         width: "100%",
@@ -314,6 +321,13 @@ const QuranScreen = () => {
                     <SelectDropdown
                       data={["ممتاز", "جيد جدا", "جيد", "مقبول", "إعادة"]}
                       onBlur={onBlur}
+                      renderDropdownIcon={() => (
+                        <Feather
+                          name="chevron-down"
+                          size={ms(20)}
+                          color={Colors.onBackground}
+                        />
+                      )}
                       buttonStyle={{
                         width: "100%",
                         height: vs(48),
