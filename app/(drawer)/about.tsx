@@ -16,11 +16,21 @@ const About = () => {
       justifyContent="space-between"
       paddingTop="vm"
       paddingBottom="vxl"
+      style={{
+        backgroundColor: "#1F2022",
+      }}
     >
       <Drawer.Screen
         options={{
+          headerBackgroundContainerStyle: { backgroundColor: "#1F2022" },
+          headerTitleStyle: {
+            color: "white",
+          },
           headerLeft: () => (
-            <HeaderRight onPress={() => navigation.openDrawer()} />
+            <HeaderRight
+              color="white"
+              onPress={() => navigation.openDrawer()}
+            />
           ),
         }}
       />
@@ -33,22 +43,27 @@ const About = () => {
             height: ms(200),
           }}
         />
-        <ReText variant="HeadlineSmall" textAlign="center">
+        <ReText variant="HeadlineSmall" textAlign="center" color="background">
           v1.0.0
         </ReText>
       </Box>
       <Box alignItems="center">
-        <ReText variant="TitleSmall" textAlign="center" marginBottom="vs">
+        <ReText
+          variant="TitleSmall"
+          textAlign="center"
+          marginBottom="vs"
+          color="background"
+        >
           للتواصل مع مطور البرنامج هيثم عسولي
         </ReText>
         <Box flexDirection="row" gap="hm">
-          <TouchableOpacity
+          {/* <TouchableOpacity
             onPress={() =>
               Linking.openURL("https://www.facebook.com/assoli.55/")
             }
           >
-            <AntDesign name="facebook-square" size={ms(28)} color="black" />
-          </TouchableOpacity>
+            <AntDesign name="facebook-square" size={ms(28)} color="white" />
+          </TouchableOpacity> */}
           <TouchableOpacity
             onPress={() =>
               Linking.openURL(
@@ -56,15 +71,15 @@ const About = () => {
               )
             }
           >
-            <Feather name="mail" size={ms(28)} color="black" />
+            <Feather name="mail" size={ms(28)} color="white" />
           </TouchableOpacity>
-          <TouchableOpacity
+          {/* <TouchableOpacity
             onPress={() =>
               Linking.openURL("https://www.linkedin.com/in/haithamassoli/")
             }
           >
-            <AntDesign name="linkedin-square" size={ms(28)} color="black" />
-          </TouchableOpacity>
+            <AntDesign name="linkedin-square" size={ms(28)} color="white" />
+          </TouchableOpacity> */}
         </Box>
       </Box>
     </Box>
