@@ -150,7 +150,7 @@ const Leaderboard = () => {
       <FlatList
         data={mergedData}
         contentContainerStyle={{
-          paddingHorizontal: hs(8),
+          paddingHorizontal: hs(16),
         }}
         renderItem={({ item, index }) => (
           <>
@@ -161,16 +161,20 @@ const Leaderboard = () => {
                   justifyContent: "space-between",
                   alignItems: "center",
                   paddingVertical: vs(10),
-                  paddingHorizontal: vs(15),
                 }}
               >
                 <ReText variant="BodyLarge">
                   {index + 1}. {item.name}
                 </ReText>
-                <ReText variant="BodyLarge">
-                  <Ionicons name="trophy-outline" size={ms(18)} color="black" />
-                  {item.points}
-                </ReText>
+                <Box
+                  flexDirection="row"
+                  justifyContent="center"
+                  alignItems="center"
+                  gap="hxs"
+                >
+                  <ReText variant="BodyLarge">{item.points}</ReText>
+                  <Ionicons name="trophy-outline" size={ms(16)} color="black" />
+                </Box>
               </Box>
             )}
           </>
