@@ -22,6 +22,7 @@ import { ScrollView, TouchableOpacity } from "react-native";
 import { TextInput } from "react-native-paper";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { deleteUserMutation } from "@apis/auth";
+import { Image } from "expo-image";
 
 const StudentInfo = () => {
   const {
@@ -100,9 +101,8 @@ const StudentInfo = () => {
       <ScrollView
         style={{
           flexGrow: 1,
-          paddingHorizontal: hs(16),
-          paddingBottom: vs(24),
-          paddingTop: useSafeAreaInsets().top,
+          marginHorizontal: hs(16),
+          marginTop: useSafeAreaInsets().top,
         }}
       >
         <Box flexDirection="row" marginBottom="vxl" alignItems="center">
@@ -135,7 +135,7 @@ const StudentInfo = () => {
           sheikhPhone={sheikhPhone || admin?.phone}
           allSheikhs={admins}
         />
-        <Box alignItems="center" marginVertical="vl">
+        <Box alignItems="center" marginTop="vl">
           <ControlledInput
             control={control}
             name="notes"
@@ -165,6 +165,112 @@ const StudentInfo = () => {
             }
           />
         </Box>
+        <ReText variant="TitleMedium">الإنجازات</ReText>
+        <Box
+          flexDirection="row"
+          flexWrap="wrap"
+          alignItems="center"
+          justifyContent="center"
+          gap="hm"
+          marginBottom="vxl"
+        >
+          <Box alignItems="center">
+            <Image
+              source={images[0].image}
+              style={{
+                width: ms(100),
+                height: ms(100),
+                marginBottom: vs(16),
+              }}
+              tintColor={data?.sessionsCount! > 0 ? undefined : "gray"}
+              contentFit="contain"
+              transition={400}
+            />
+            <ReText variant="LabelMedium" textAlign="center">
+              {images[0].title}
+            </ReText>
+          </Box>
+          <Box alignItems="center">
+            <Image
+              source={images[1].image}
+              style={{
+                width: ms(100),
+                height: ms(100),
+                marginBottom: vs(16),
+              }}
+              tintColor={data?.sessionsCount! >= 7 ? undefined : "gray"}
+              contentFit="contain"
+              transition={400}
+            />
+            <ReText variant="LabelMedium" textAlign="center">
+              {images[1].title}
+            </ReText>
+          </Box>
+          <Box alignItems="center">
+            <Image
+              source={images[2].image}
+              style={{
+                width: ms(100),
+                height: ms(100),
+                marginBottom: vs(16),
+              }}
+              tintColor={data?.sessionsCount! >= 30 ? undefined : "gray"}
+              contentFit="contain"
+              transition={400}
+            />
+            <ReText variant="LabelMedium" textAlign="center">
+              {images[2].title}
+            </ReText>
+          </Box>
+          <Box alignItems="center">
+            <Image
+              source={images[3].image}
+              style={{
+                width: ms(100),
+                height: ms(100),
+                marginBottom: vs(16),
+              }}
+              tintColor={data?.quizzesCount! > 0 ? undefined : "gray"}
+              contentFit="contain"
+              transition={400}
+            />
+            <ReText variant="LabelMedium" textAlign="center">
+              {images[3].title}
+            </ReText>
+          </Box>
+          <Box alignItems="center">
+            <Image
+              source={images[4].image}
+              style={{
+                width: ms(100),
+                height: ms(100),
+                marginBottom: vs(16),
+              }}
+              tintColor={data?.quizzesCount! >= 10 ? undefined : "gray"}
+              contentFit="contain"
+              transition={400}
+            />
+            <ReText variant="LabelMedium" textAlign="center">
+              {images[4].title}
+            </ReText>
+          </Box>
+          <Box alignItems="center">
+            <Image
+              source={images[5].image}
+              style={{
+                width: ms(100),
+                height: ms(100),
+                marginBottom: vs(16),
+              }}
+              tintColor={data?.quizzesCount! >= 50 ? undefined : "gray"}
+              contentFit="contain"
+              transition={400}
+            />
+            <ReText variant="LabelMedium" textAlign="center">
+              {images[5].title}
+            </ReText>
+          </Box>
+        </Box>
         {user?.role !== "user" && (
           <CustomButton
             mode="contained"
@@ -175,9 +281,22 @@ const StudentInfo = () => {
             onPress={onDelete}
           />
         )}
+        <Box height={vs(16)} />
       </ScrollView>
     </>
   );
 };
 
 export default StudentInfo;
+
+const images = [
+  { image: require("@assets/images/1sessions.png"), title: "سمٍّع مرة" },
+  {
+    image: require("@assets/images/7sessions.png"),
+    title: "سمٍّع 7 مرات",
+  },
+  { image: require("@assets/images/30sessions.png"), title: "سمٍّع 30 مرة" },
+  { image: require("@assets/images/quiz.png"), title: "اختبر مرة" },
+  { image: require("@assets/images/10quiz.png"), title: "اختبر 10 مرات" },
+  { image: require("@assets/images/50quiz.png"), title: "اختبر 50 مرة" },
+];
