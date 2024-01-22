@@ -280,7 +280,7 @@ const QuranScreen = () => {
                       buttonTextStyle={{
                         textAlign: "left",
                         color: error ? Colors.error : Colors.onBackground,
-                        fontFamily: "CairoBold",
+                        fontFamily: "Cairo-Bold",
                         fontSize: ms(14),
                       }}
                       defaultButtonText="نوع الجلسة"
@@ -325,7 +325,7 @@ const QuranScreen = () => {
                       buttonTextStyle={{
                         textAlign: "left",
                         color: error ? Colors.error : Colors.onBackground,
-                        fontFamily: "CairoBold",
+                        fontFamily: "Cairo-Bold",
                         fontSize: ms(14),
                       }}
                       defaultButtonText="درجة الجلسة"
@@ -594,12 +594,12 @@ const styles = StyleSheet.create({
     borderWidth: 0.6,
   },
   helperText: {
-    fontFamily: "CairoReg",
+    fontFamily: "Cairo-Regular",
     textAlign: "left",
     width: "100%",
   },
   rowText: {
-    fontFamily: "CairoReg",
+    fontFamily: "Cairo-Regular",
     fontSize: ms(14),
     textAlign: "left",
     color: Colors.onBackground,

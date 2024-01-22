@@ -78,7 +78,7 @@ const StudentScreen = () => {
           variant="TitleMedium"
           textAlign="center"
           marginVertical="vm"
-          fontFamily="CairoBold"
+          fontFamily="Cairo-Bold"
         >
           الجلسات السابقة
         </ReText>

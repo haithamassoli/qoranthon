@@ -71,12 +71,16 @@ const Leaderboard = () => {
           />
           <ReText
             variant="TitleSmall"
-            fontFamily="CairoBold"
+            fontFamily="Cairo-Bold"
             textAlign="center"
           >
             {mergedData?.[2]?.name}
           </ReText>
-          <ReText variant="BodyLarge" fontFamily="CairoBold" textAlign="center">
+          <ReText
+            variant="BodyLarge"
+            fontFamily="Cairo-Bold"
+            textAlign="center"
+          >
             {mergedData?.[2]?.points}
           </ReText>
         </Box>
@@ -100,14 +104,14 @@ const Leaderboard = () => {
           />
           <ReText
             variant="TitleSmall"
-            fontFamily="CairoBold"
+            fontFamily="Cairo-Bold"
             textAlign="center"
           >
             {mergedData?.[0]?.name}
           </ReText>
           <ReText
             variant="BodyMedium"
-            fontFamily="CairoBold"
+            fontFamily="Cairo-Bold"
             textAlign="center"
           >
             {mergedData?.[0]?.points}
@@ -133,14 +137,14 @@ const Leaderboard = () => {
           />
           <ReText
             variant="TitleSmall"
-            fontFamily="CairoBold"
+            fontFamily="Cairo-Bold"
             textAlign="center"
           >
             {mergedData?.[1]?.name}
           </ReText>
           <ReText
             variant="BodyMedium"
-            fontFamily="CairoBold"
+            fontFamily="Cairo-Bold"
             textAlign="center"
           >
             {mergedData?.[1]?.points}

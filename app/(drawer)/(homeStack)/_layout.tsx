@@ -11,7 +11,7 @@ const HomeStack = () => {
         headerBackTitleVisible: false,
         headerShown: false,
         headerTitleStyle: {
-          fontFamily: "CairoBold",
+          fontFamily: "Cairo-Bold",
           fontSize: ms(16),
         },
       }}

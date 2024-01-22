@@ -131,7 +131,7 @@ const SheikhInfoTable = ({
       >
         <ReText
           variant="TitleMedium"
-          fontFamily="CairoBold"
+          fontFamily="Cairo-Bold"
           textAlign="center"
           color="onPrimary"
         >

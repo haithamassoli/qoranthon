@@ -129,7 +129,11 @@ const QuranTest = () => {
             onDismiss={hideModal}
             contentContainerStyle={styles.modal}
           >
-            <ReText variant="TitleLarge" fontFamily="CairoReg" color="primary">
+            <ReText
+              variant="TitleLarge"
+              fontFamily="Cairo-Regular"
+              color="primary"
+            >
               أحسنت. تهانينا
             </ReText>
             <ReText variant="TitleLarge" marginTop="vl" color="tertiary">
@@ -166,7 +170,7 @@ const QuranTest = () => {
               paddingVertical="vxs"
             >
               <ReText
-                fontFamily="Uthmanic"
+                fontFamily="KFGQPC HAFS Uthmanic Script Regular"
                 textAlign="center"
                 variant="TitleLarge"
               >
@@ -180,7 +184,7 @@ const QuranTest = () => {
               <ReText
                 textAlign="center"
                 variant="TitleMedium"
-                fontFamily="CairoBold"
+                fontFamily="Cairo-Bold"
               >
                 رتب الآيات بشكل صحيح
               </ReText>
@@ -239,7 +243,7 @@ const QuranTest = () => {
                   paddingVertical="vxs"
                 >
                   <ReText
-                    fontFamily="Uthmanic"
+                    fontFamily="KFGQPC HAFS Uthmanic Script Regular"
                     textAlign="center"
                     variant="TitleLarge"
                   >

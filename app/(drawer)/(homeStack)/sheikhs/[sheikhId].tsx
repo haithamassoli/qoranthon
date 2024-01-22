@@ -180,7 +180,7 @@ const SheikhScreen = () => {
           variant="TitleMedium"
           textAlign="center"
           marginVertical="vm"
-          fontFamily="CairoBold"
+          fontFamily="Cairo-Bold"
         >
           الطلاب
         </ReText>

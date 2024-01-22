@@ -61,21 +61,21 @@ export default ControlledInput;
 
 const styles = StyleSheet.create({
   helperText: {
-    fontFamily: "CairoReg",
+    fontFamily: "Cairo-Regular",
     textAlign: "left",
     width: "86%",
   },
   input: {
     width: "100%",
     height: vs(48),
-    fontFamily: "CairoBold",
+    fontFamily: "Cairo-Bold",
     fontSize: ms(14),
     backgroundColor: Colors.background,
     borderRadius: ms(8),
     lineHeight: ms(24),
   },
   inputContent: {
-    fontFamily: "CairoReg",
+    fontFamily: "Cairo-Regular",
     fontSize: ms(14),
     height: vs(48),
   },

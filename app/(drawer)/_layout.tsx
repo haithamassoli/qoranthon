@@ -11,7 +11,7 @@ const HomeDrawer = () => {
       screenOptions={{
         drawerType: "front",
         headerTitleStyle: {
-          fontFamily: "CairoBold",
+          fontFamily: "Cairo-Bold",
           fontSize: ms(16),
         },
         drawerStyle: {

@@ -100,7 +100,11 @@ const CustomDrawer = (props: any) => {
               color={Colors.onBackground}
               size={IconSize.m}
             />
-            <ReText variant="LabelLarge" marginLeft="hs" fontFamily="CairoBold">
+            <ReText
+              variant="LabelLarge"
+              marginLeft="hs"
+              fontFamily="Cairo-Bold"
+            >
               شارك مع أصدقائك
             </ReText>
           </Box>
@@ -119,7 +123,7 @@ const CustomDrawer = (props: any) => {
               <ReText
                 variant="LabelLarge"
                 marginLeft="hs"
-                fontFamily="CairoBold"
+                fontFamily="Cairo-Bold"
               >
                 تسجيل خروج
               </ReText>

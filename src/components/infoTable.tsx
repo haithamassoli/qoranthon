@@ -159,7 +159,7 @@ const InfoTable = ({
       >
         <ReText
           variant="TitleMedium"
-          fontFamily="CairoBold"
+          fontFamily="Cairo-Bold"
           textAlign="center"
           color="onPrimary"
         >
@@ -363,7 +363,7 @@ const InfoTable = ({
               buttonTextStyle={{
                 textAlign: "left",
                 color: Colors.onBackground,
-                fontFamily: "CairoBold",
+                fontFamily: "Cairo-Bold",
                 fontSize: ms(14),
               }}
               defaultButtonText={studentSheikh?.name}
@@ -439,7 +439,7 @@ const styles = StyleSheet.create({
     borderWidth: 0.6,
   },
   rowText: {
-    fontFamily: "CairoReg",
+    fontFamily: "Cairo-Regular",
     fontSize: ms(14),
     textAlign: "left",
     color: Colors.onBackground,

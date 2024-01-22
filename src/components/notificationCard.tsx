@@ -29,7 +29,7 @@ const NotificationCard = ({ body, title, date }: Props) => {
       <ReText
         variant="TitleMedium"
         textAlign="left"
-        fontFamily="CairoBold"
+        fontFamily="Cairo-Bold"
         color="primary"
       >
         {body}

@@ -158,7 +158,7 @@ const NextAyaTest = () => {
             <ReText
               variant="TitleMedium"
               paddingBottom="vm"
-              fontFamily="CairoReg"
+              fontFamily="Cairo-Regular"
               color="primary"
             >
               هل تريد الخروج؟
@@ -180,7 +180,11 @@ const NextAyaTest = () => {
             onDismiss={hideModal}
             contentContainerStyle={styles.modal}
           >
-            <ReText variant="TitleLarge" fontFamily="CairoReg" color="primary">
+            <ReText
+              variant="TitleLarge"
+              fontFamily="Cairo-Regular"
+              color="primary"
+            >
               أحسنت. تهانينا
             </ReText>
             <ReText variant="TitleLarge" marginTop="vl" color="tertiary">
@@ -216,7 +220,7 @@ const NextAyaTest = () => {
           variant="TitleMedium"
           marginTop="vm"
           marginBottom="vxl"
-          fontFamily="CairoBold"
+          fontFamily="Cairo-Bold"
         >
           السؤال {counter} من {numOfQuestions}
         </ReText>
@@ -224,7 +228,7 @@ const NextAyaTest = () => {
           textAlign="center"
           variant="TitleMedium"
           marginBottom="vxl"
-          fontFamily="CairoBold"
+          fontFamily="Cairo-Bold"
         >
           ما هي الآية التالية؟
         </ReText>
@@ -233,7 +237,11 @@ const NextAyaTest = () => {
           borderRadius="m"
           paddingVertical="vxs"
         >
-          <ReText fontFamily="Uthmanic" textAlign="center" variant="TitleLarge">
+          <ReText
+            fontFamily="KFGQPC HAFS Uthmanic Script Regular"
+            textAlign="center"
+            variant="TitleLarge"
+          >
             {answer?.text.replaceAll("۟", "")}
           </ReText>
         </Box>
@@ -270,7 +278,7 @@ const NextAyaTest = () => {
                   paddingVertical="vxs"
                 >
                   <ReText
-                    fontFamily="Uthmanic"
+                    fontFamily="KFGQPC HAFS Uthmanic Script Regular"
                     textAlign="center"
                     variant="TitleLarge"
                   >

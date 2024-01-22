@@ -41,7 +41,6 @@ const Gamification = () => {
       reset({
         search: "",
       });
-      // setValue("search", "");
       // @ts-ignore
       router.push(`/gamification/quran-test?page=${data.search}`);
     } else {
@@ -64,8 +63,6 @@ const Gamification = () => {
         search: "",
         search2: "",
       });
-      // setValue("search", "");
-      // setValue("search2", "");
       router.push(
         // @ts-ignore
         `/gamification/next-aya-test?page=${data.search}&page2=${data.search2}&numOfQuestions=${numOfQuestions}`
@@ -101,7 +98,7 @@ const Gamification = () => {
           buttonTextStyle={{
             textAlign: "left",
             color: Colors.onBackground,
-            fontFamily: "CairoBold",
+            fontFamily: "Cairo-Bold",
             fontSize: ms(14),
           }}
           defaultButtonText="نوع الجلسة"
@@ -252,7 +249,7 @@ const styles = StyleSheet.create({
     borderWidth: 0.6,
   },
   rowText: {
-    fontFamily: "CairoReg",
+    fontFamily: "Cairo-Regular",
     fontSize: ms(14),
     textAlign: "left",
     color: Colors.onBackground,

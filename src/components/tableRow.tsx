@@ -12,7 +12,7 @@ const TableRow = ({ title, value }: { title: string; value: string }) => {
       <Box borderColor="shadow" flex={1} height={vs(38)}>
         <ReText
           variant="BodyMedium"
-          fontFamily="CairoBold"
+          fontFamily="Cairo-Bold"
           textAlign="center"
           lineHeight={vs(38)}
         >
