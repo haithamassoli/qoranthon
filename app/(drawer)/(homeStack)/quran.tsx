@@ -202,7 +202,9 @@ const QuranScreen = () => {
       return;
     }
     pdfRef.current?.setPage(+data.search);
-    reset();
+    reset({
+      search: "",
+    });
     hideSearchModal();
   };
 

@@ -38,7 +38,10 @@ const Gamification = () => {
         });
         return;
       }
-      reset();
+      reset({
+        search: "",
+      });
+      // setValue("search", "");
       // @ts-ignore
       router.push(`/gamification/quran-test?page=${data.search}`);
     } else {
@@ -57,7 +60,12 @@ const Gamification = () => {
         );
         return;
       }
-      reset();
+      reset({
+        search: "",
+        search2: "",
+      });
+      // setValue("search", "");
+      // setValue("search2", "");
       router.push(
         // @ts-ignore
         `/gamification/next-aya-test?page=${data.search}&page2=${data.search2}&numOfQuestions=${numOfQuestions}`
