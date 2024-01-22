@@ -63,10 +63,12 @@ const SessionScreen = () => {
           value={data?.notes!?.length > 0 ? data?.notes! : "لا يوجد ملاحظات"}
         />
         <Box marginVertical="vm" />
-        <CustomButton
-          title="عرض الأخطاء والترددات"
-          onPress={() => setIsVisible(true)}
-        />
+        {(data?.numPitfalls! > 0 || data?.numErrs! > 0) && (
+          <CustomButton
+            title="عرض الأخطاء والترددات"
+            onPress={() => setIsVisible(true)}
+          />
+        )}
       </Box>
     </SafeAreaView>
   );
