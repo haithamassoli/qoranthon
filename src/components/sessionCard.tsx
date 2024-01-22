@@ -2,7 +2,7 @@ import { Box, ReText } from "@styles/theme";
 import { SessionRate, SessionType } from "@src/types/data";
 import { dateFromNow } from "@utils/helper";
 import { hs, ms, vs } from "@utils/platform";
-import { TouchableOpacity } from "react-native-gesture-handler";
+import { TouchableOpacity } from "react-native";
 import Colors from "@styles/colors";
 import { Feather } from "@expo/vector-icons";
 import { deleteSessionMutation } from "@apis/sessions";

@@ -3,7 +3,6 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ThemeProvider as ReThemeProvider } from "@shopify/restyle";
 import { StatusBar } from "expo-status-bar";
 import { useStore } from "@zustand/store";
-import { useFonts } from "expo-font";
 import * as Notifications from "expo-notifications";
 import { isDevice } from "expo-device";
 import {
@@ -13,10 +12,10 @@ import {
   configureFonts,
   Text,
 } from "react-native-paper";
-import { useCallback, useEffect, useRef } from "react";
+import { useEffect, useRef } from "react";
 import { MaterialLight, fontConfig } from "@styles/material";
 import { ThemeProvider } from "@react-navigation/native";
-import theme, { Box, ReText } from "@styles/theme";
+import theme, { ReText } from "@styles/theme";
 import Colors from "@styles/colors";
 import {
   Alert,
@@ -27,7 +26,6 @@ import {
 } from "react-native";
 import {
   Stack,
-  SplashScreen,
   useSegments,
   router,
   useRootNavigationState,
@@ -70,8 +68,6 @@ export const unstable_settings = {
   // Ensure any route can link back to `/`
   initialRouteName: "(drawer)",
 };
-
-SplashScreen.preventAutoHideAsync();
 
 const getUserFromStorage = async () => {
   try {
@@ -251,21 +247,6 @@ export default function RootLayout() {
 }
 
 export const App = () => {
-  const [fontsLoaded] = useFonts({
-    CairoReg: require("@assets/fonts/Cairo-Reg.ttf"),
-    CairoBold: require("@assets/fonts/Cairo-Bold.ttf"),
-    Uthmanic: require("@assets/fonts/UthmanicHafs1Ver18.ttf"),
-  });
-  const onLayoutRootView = useCallback(() => {
-    if (fontsLoaded) {
-      SplashScreen.hideAsync();
-    }
-  }, [fontsLoaded]);
-
-  if (!fontsLoaded) {
-    return null;
-  }
-
   const materialTheme: any = {
     ...MD3LightTheme,
     dark: false,
@@ -280,14 +261,12 @@ export const App = () => {
       <StatusBar style={"dark"} backgroundColor={Colors.background} />
       <PaperProvider theme={materialTheme}>
         <ThemeProvider value={LightNavigationColors}>
-          <Box flex={1} onLayout={onLayoutRootView}>
-            <Stack
-              screenOptions={{
-                headerShown: false,
-                animation: "slide_from_left",
-              }}
-            />
-          </Box>
+          <Stack
+            screenOptions={{
+              headerShown: false,
+              animation: "slide_from_left",
+            }}
+          />
         </ThemeProvider>
       </PaperProvider>
     </ReThemeProvider>
