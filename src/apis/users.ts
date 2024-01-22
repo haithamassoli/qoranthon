@@ -46,6 +46,9 @@ export const getUserByIdQuery = (userId: string) => {
     queryKey: ["user", userId],
     queryFn: () => getUserById(userId),
     onError: (error: any) => useStore.setState({ snackbarText: error.message }),
+    cacheTime: 0,
+    staleTime: 0,
+    networkMode: "online",
   });
 };
 
@@ -65,6 +68,8 @@ const getUserById = async (userId: string) => {
       notes?: string;
       contact?: string;
       vision?: string;
+      sessionsCount: number;
+      quizzesCount: number;
     };
   } catch (error: any) {
     throw new Error(error.message);
@@ -291,6 +296,27 @@ export const getAllUsers = async (managerId: string) => {
       notes?: string;
       pushNotificationsToken?: string;
     }[];
+  } catch (error: any) {
+    throw new Error(error.message);
+  }
+};
+
+export const addQuizzesCountMutation = () => {
+  return useMutation({
+    mutationFn: (data: { studentId: string }) => addQuizzesCount(data),
+    onError: (error: any) => useStore.setState({ snackbarText: error.message }),
+  });
+};
+
+const addQuizzesCount = async (data: { studentId: string }) => {
+  try {
+    await firestore()
+      .collection("users")
+      .doc(data.studentId)
+      .update({
+        quizzesCount: firestore.FieldValue.increment(1),
+      });
+    return true;
   } catch (error: any) {
     throw new Error(error.message);
   }

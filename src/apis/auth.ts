@@ -174,6 +174,8 @@ const addStudent = async (data: IRegisterStudentData) => {
         sheikhId: data.sheikhId,
         phone: data.phone || null,
         studentId: data.studentId,
+        sessionsCount: 0,
+        quizzesCount: 0,
       });
     return;
   } catch (error: any) {

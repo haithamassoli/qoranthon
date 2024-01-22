@@ -176,6 +176,7 @@ const QuranScreen = () => {
           {
             onSuccess: () => {
               queryClient.invalidateQueries(["sessions", studentId]);
+              queryClient.invalidateQueries(["user", studentId]);
               setPaths([]);
               setIsEditing(false);
               setNumErrs(0);

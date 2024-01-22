@@ -19,6 +19,8 @@ import Snackbar from "@components/snackbar";
 import { router, useLocalSearchParams } from "expo-router";
 import { Modal, Portal } from "react-native-paper";
 import CustomButton from "@components/ui/customButton";
+import { addQuizzesCountMutation } from "@apis/users";
+import { useQueryClient } from "@tanstack/react-query";
 
 const shuffleArr = (arr: any[]) => {
   for (let i = arr.length - 1; i > 0; i--) {
@@ -34,7 +36,10 @@ const QuranTest = () => {
   }: {
     page: string;
   } = useLocalSearchParams();
+  const queryClient = useQueryClient();
   const { data, isInitialLoading } = getQuranByPage(+page);
+  const { user } = useStore();
+  const { mutate } = addQuizzesCountMutation();
   const [numErrs, setNumErrs] = useState(0);
   const [visible, setVisible] = useState(false);
   const [isDown, setIsDown] = useState(true);
@@ -53,7 +58,21 @@ const QuranTest = () => {
       setAnswer([...answer, item]);
       setAyahs((prev) => {
         if (prev.length === 1) {
-          showModal();
+          if (user?.role === "user") {
+            mutate(
+              {
+                studentId: user?.id!,
+              },
+              {
+                onSuccess: () => {
+                  queryClient.invalidateQueries(["user", user?.id]);
+                  showModal();
+                },
+              }
+            );
+          } else {
+            showModal();
+          }
         }
         return prev.filter((ayah) => ayah.number !== item.number);
       });

@@ -13,6 +13,8 @@ import Snackbar from "@components/snackbar";
 import { router, useLocalSearchParams } from "expo-router";
 import { Modal, Portal } from "react-native-paper";
 import CustomButton from "@components/ui/customButton";
+import { addQuizzesCountMutation } from "@apis/users";
+import { useQueryClient } from "@tanstack/react-query";
 
 const shuffleArr = (arr: any[]) => {
   for (let i = arr.length - 1; i > 0; i--) {
@@ -38,7 +40,10 @@ const NextAyaTest = () => {
   } = useLocalSearchParams();
 
   const randomPage = getRandomBetweenPages(+page, +page2);
+  const { user } = useStore();
+  const queryClient = useQueryClient();
   const [currentPage, setCurrentPage] = useState(randomPage);
+  const { mutate } = addQuizzesCountMutation();
   const { data, isInitialLoading, isFetching, refetch } =
     getQuranByPage(currentPage);
 
@@ -58,8 +63,23 @@ const NextAyaTest = () => {
   const onAnswer = (item: Ayahs) => {
     if (item.number - 1 === answer?.number) {
       if (counter === +numOfQuestions) {
-        showModal();
-        return;
+        if (user?.role === "user") {
+          mutate(
+            {
+              studentId: user?.id!,
+            },
+            {
+              onSuccess: () => {
+                queryClient.invalidateQueries(["user", user?.id]);
+                showModal();
+                return;
+              },
+            }
+          );
+        } else {
+          showModal();
+          return;
+        }
       }
       setCurrentPage(getRandomBetweenPages(+page, +page2));
 

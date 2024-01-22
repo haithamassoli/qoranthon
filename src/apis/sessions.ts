@@ -25,6 +25,12 @@ export const addSessionMutation = () => {
 
 const addSession = async (data: Session) => {
   try {
+    await firestore()
+      .collection("users")
+      .doc(data.studentId)
+      .update({
+        sessionsCount: firestore.FieldValue.increment(1),
+      });
     const session = await firestore()
       .collection("users")
       .doc(data.studentId)
