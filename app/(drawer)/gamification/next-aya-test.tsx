@@ -1,5 +1,11 @@
 import { Box, ReText } from "@styles/theme";
-import { FlatList, Share, StyleSheet, TouchableOpacity } from "react-native";
+import {
+  FlatList,
+  LayoutAnimation,
+  Share,
+  StyleSheet,
+  TouchableOpacity,
+} from "react-native";
 import { getQuranByPage } from "@apis/quran";
 import Loading from "@components/loading";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
@@ -85,6 +91,7 @@ const NextAyaTest = () => {
           return;
         }
       }
+      LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
       setCurrentPage(getRandomBetweenPages(+page, +page2));
 
       refetch().then(() => {
@@ -108,9 +115,11 @@ const NextAyaTest = () => {
         randomAyahs[0].number == data.ayahs[data.ayahs.length - 1].number;
 
       if (checkLastItem) {
+        LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
         setAyahs(randomAyahs.slice(0, -1));
         setAnswer(randomAyahs[randomAyahs.length - 1]);
       } else {
+        LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
         setAyahs(randomAyahs.slice(1));
         setAnswer(randomAyahs[0]);
       }
