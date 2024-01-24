@@ -201,7 +201,7 @@ const NextAyaTest = () => {
             </ReText>
             <ReText variant="LabelMedium">اختبر نفسك في ترتيب الآيات</ReText>
             <ReText marginTop="vm" variant="LabelMedium">
-              عدد الأسئلة: ${numOfQuestions}
+              عدد الأسئلة: {numOfQuestions}
             </ReText>
             <ReText variant="LabelMedium">
               الصفحات: من {page} إلى {page2}
