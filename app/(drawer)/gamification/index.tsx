@@ -7,19 +7,24 @@ import { SearchSchemaType, searchSchema } from "@src/types/schema";
 import { ms, vs } from "@utils/platform";
 import { router, useNavigation } from "expo-router";
 import { useForm } from "react-hook-form";
-import { StyleSheet, TouchableOpacity } from "react-native";
+import { FlatList, StyleSheet, TouchableOpacity } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import SelectDropdown from "react-native-select-dropdown";
 import ControlledInput from "@components/ui/controlledInput";
 import { useState } from "react";
 import { HelperText } from "react-native-paper";
 import { Feather, Ionicons } from "@expo/vector-icons";
+import { getQuizzesQuery } from "@apis/quizzes";
+import QuizCard from "@components/quizCard";
+import Loading from "@components/loading";
 
 const Gamification = () => {
   const navigation: any = useNavigation();
-  const [type, setType] = useState<"ما هي الآية التالية؟" | "ترتيب الآيات">(
-    "ما هي الآية التالية؟"
-  );
+  const [type, setType] = useState<
+    "ما هي الآية التالية؟" | "ترتيب الآيات" | "اختبارات منوعة"
+  >("ما هي الآية التالية؟");
+
+  const { data, isInitialLoading } = getQuizzesQuery(type === "اختبارات منوعة");
   const [customError, setCustomError] = useState<string>("");
   const [numOfQuestions, setNumOfQuestions] = useState<string>("5");
   const { control, handleSubmit, reset, setError, setFocus } =
@@ -79,14 +84,14 @@ const Gamification = () => {
     >
       <Box flexDirection="row" alignItems="center" gap="hs">
         <HeaderRight onPress={() => navigation.openDrawer()} />
-        <ReText variant="TitleMedium">اختبار الحفظ</ReText>
+        <ReText variant="TitleMedium">اختبر نفسك</ReText>
       </Box>
       <Box paddingHorizontal="hm" paddingTop="vl">
         <ReText variant="BodyLarge" marginBottom="vxs">
           اختبر نفسك في:
         </ReText>
         <SelectDropdown
-          data={["ما هي الآية التالية؟", "ترتيب الآيات"]}
+          data={["ما هي الآية التالية؟", "ترتيب الآيات", "اختبارات منوعة"]}
           buttonStyle={{
             width: "100%",
             marginBottom: vs(16),
@@ -119,16 +124,24 @@ const Gamification = () => {
         />
         <Box alignItems="center">
           {type === "ترتيب الآيات" ? (
-            <ControlledInput
-              control={control}
-              name="search"
-              placeholder="ادحل الصفحة المطلوبة"
-              onSubmitEditing={handleSubmit(onSearch)}
-              label="الصفحة"
-              mode="outlined"
-              width={"100%"}
-            />
-          ) : (
+            <>
+              <ControlledInput
+                control={control}
+                name="search"
+                placeholder="ادحل الصفحة المطلوبة"
+                onSubmitEditing={handleSubmit(onSearch)}
+                label="الصفحة"
+                mode="outlined"
+                width={"100%"}
+              />
+              <CustomButton
+                title="اختبار"
+                onPress={handleSubmit(onSearch)}
+                style={{ marginTop: vs(16), width: "100%" }}
+                mode="contained"
+              />
+            </>
+          ) : type === "ما هي الآية التالية؟" ? (
             <Box gap="vs" width="100%">
               <Box
                 flexDirection="row"
@@ -230,15 +243,42 @@ const Gamification = () => {
               >
                 {customError}
               </HelperText>
+              <CustomButton
+                title="اختبار"
+                onPress={handleSubmit(onSearch)}
+                style={{ marginTop: vs(16) }}
+                mode="contained"
+              />
+            </Box>
+          ) : (
+            <Box width={"100%"}>
+              {isInitialLoading ? (
+                <Box height={"90%"}>
+                  <Loading />
+                </Box>
+              ) : (
+                <FlatList
+                  data={data}
+                  keyExtractor={(item) => item.id}
+                  ItemSeparatorComponent={() => <Box height={vs(16)} />}
+                  renderItem={({ item }) => (
+                    <QuizCard
+                      createdAt={item.createdAt}
+                      title={item.title}
+                      sheikhId={item.sheikhId}
+                      sheikhName={item.sheikhName}
+                      onPress={() =>
+                        router.push(
+                          `/gamification/quizzes/${item.id}?quizTitle=${item.title}`
+                        )
+                      }
+                    />
+                  )}
+                />
+              )}
             </Box>
           )}
         </Box>
-        <CustomButton
-          title="اختبار"
-          onPress={handleSubmit(onSearch)}
-          style={{ marginTop: vs(16) }}
-          mode="contained"
-        />
       </Box>
     </Box>
   );
