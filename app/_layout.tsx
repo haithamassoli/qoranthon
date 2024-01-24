@@ -4,6 +4,7 @@ import { ThemeProvider as ReThemeProvider } from "@shopify/restyle";
 import { StatusBar } from "expo-status-bar";
 import { useStore } from "@zustand/store";
 import * as Notifications from "expo-notifications";
+import { useFonts } from "expo-font";
 import { isDevice } from "expo-device";
 import {
   PaperProvider,
@@ -12,10 +13,10 @@ import {
   configureFonts,
   Text,
 } from "react-native-paper";
-import { useEffect, useRef } from "react";
+import { useCallback, useEffect, useRef } from "react";
 import { MaterialLight, fontConfig } from "@styles/material";
 import { ThemeProvider } from "@react-navigation/native";
-import theme, { ReText } from "@styles/theme";
+import theme, { Box, ReText } from "@styles/theme";
 import Colors from "@styles/colors";
 import {
   Alert,
@@ -29,6 +30,7 @@ import {
   useSegments,
   router,
   useRootNavigationState,
+  SplashScreen,
 } from "expo-router";
 import { LightNavigationColors } from "@styles/navigation";
 import RNRestart from "react-native-restart";
@@ -68,6 +70,8 @@ export const unstable_settings = {
   // Ensure any route can link back to `/`
   initialRouteName: "(drawer)",
 };
+
+SplashScreen.preventAutoHideAsync();
 
 const getUserFromStorage = async () => {
   try {
@@ -247,6 +251,21 @@ export default function RootLayout() {
 }
 
 export const App = () => {
+  const [fontsLoaded] = useFonts({
+    "Cairo-Regular": require("@assets/fonts/Cairo-Regular.ttf"),
+    "Cairo-Bold": require("@assets/fonts/Cairo-Bold.ttf"),
+    "KFGQPC HAFS Uthmanic Script Regular": require("@assets/fonts/KFGQPC HAFS Uthmanic Script Regular.ttf"),
+  });
+  const onLayoutRootView = useCallback(() => {
+    if (fontsLoaded) {
+      SplashScreen.hideAsync();
+    }
+  }, [fontsLoaded]);
+
+  if (!fontsLoaded) {
+    return null;
+  }
+
   const materialTheme: any = {
     ...MD3LightTheme,
     dark: false,
@@ -261,12 +280,18 @@ export const App = () => {
       <StatusBar style={"dark"} backgroundColor={Colors.background} />
       <PaperProvider theme={materialTheme}>
         <ThemeProvider value={LightNavigationColors}>
-          <Stack
-            screenOptions={{
-              headerShown: false,
-              animation: "slide_from_left",
-            }}
-          />
+          <Box
+            onLayout={onLayoutRootView}
+            flex={1}
+            backgroundColor="background"
+          >
+            <Stack
+              screenOptions={{
+                headerShown: false,
+                animation: "slide_from_left",
+              }}
+            />
+          </Box>
         </ThemeProvider>
       </PaperProvider>
     </ReThemeProvider>
