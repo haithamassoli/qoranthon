@@ -17,9 +17,11 @@ import { Feather, Ionicons } from "@expo/vector-icons";
 import { getQuizzesQuery } from "@apis/quizzes";
 import QuizCard from "@components/quizCard";
 import Loading from "@components/loading";
+import { useStore } from "@zustand/store";
 
 const Gamification = () => {
   const navigation: any = useNavigation();
+  const { user } = useStore();
   const [type, setType] = useState<
     "ما هي الآية التالية؟" | "ترتيب الآيات" | "اختبارات منوعة"
   >("ما هي الآية التالية؟");
@@ -82,9 +84,24 @@ const Gamification = () => {
         paddingTop: useSafeAreaInsets().top,
       }}
     >
-      <Box flexDirection="row" alignItems="center" gap="hs">
+      <Box
+        flexDirection="row"
+        alignItems="center"
+        justifyContent="space-between"
+        paddingRight="hs"
+        gap="hs"
+      >
         <HeaderRight onPress={() => navigation.openDrawer()} />
         <ReText variant="TitleMedium">اختبر نفسك</ReText>
+        {user?.role !== "user" ? (
+          <TouchableOpacity
+            onPress={() => router.push("/gamification/quizzes/add-quiz")}
+          >
+            <Feather name="plus" size={ms(24)} color={Colors.onBackground} />
+          </TouchableOpacity>
+        ) : (
+          <Box width={ms(24)} />
+        )}
       </Box>
       <Box paddingHorizontal="hm" paddingTop="vl">
         <ReText variant="BodyLarge" marginBottom="vxs">

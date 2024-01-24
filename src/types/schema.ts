@@ -80,6 +80,30 @@ export const studentValidationSchema = z.object({
 export type StudentValidationSchemaType = z.infer<
   typeof studentValidationSchema
 >;
+export const quizValidationSchema = z.object({
+  title: z.string({
+    required_error: "العنوان يجب أن لا يكون فارغًا",
+  }),
+  questions: z
+    .array(
+      z.object({
+        question: z.string({
+          required_error: "السؤال يجب أن لا يكون فارغًا",
+        }),
+        options: z
+          .array(
+            z.string({
+              required_error: "الخيار يجب أن لا يكون فارغًا",
+            })
+          )
+          .min(2, "الخيارات يجب أن تكون خيارين على الأقل")
+          .max(4, "الخيارات يجب أن تكون أربعة خيارات على الأكثر"),
+      })
+    )
+    .min(1, "الأسئلة يجب أن تكون سؤال واحد على الأقل"),
+});
+
+export type QuizValidationSchemaType = z.infer<typeof quizValidationSchema>;
 export const editStudentValidationSchema = z.object({
   name: z.optional(
     z

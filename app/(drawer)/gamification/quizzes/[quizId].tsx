@@ -249,30 +249,34 @@ const QuizScreen = () => {
             </Box>
             <Box>
               {item.options.map((option: string) => (
-                <TouchableOpacity
-                  key={option}
-                  disabled={!!answer}
-                  onPress={() => onAnswer(option)}
-                  style={{}}
-                >
-                  <Box
-                    borderRadius="m"
-                    backgroundColor={
-                      answer && option === item.correctAnswer
-                        ? "tertiaryContainer"
-                        : answer &&
-                          answer === option &&
-                          answer !== item.correctAnswer
-                        ? "errorContainer"
-                        : "secondaryContainer"
-                    }
-                    paddingVertical="vs"
-                    marginTop="vs"
-                    paddingHorizontal="vs"
-                  >
-                    <ReText variant="LabelLarge">{option}</ReText>
-                  </Box>
-                </TouchableOpacity>
+                <>
+                  {option.length > 0 && (
+                    <TouchableOpacity
+                      key={option}
+                      disabled={!!answer}
+                      onPress={() => onAnswer(option)}
+                      style={{}}
+                    >
+                      <Box
+                        borderRadius="m"
+                        backgroundColor={
+                          answer && option === item.correctAnswer
+                            ? "tertiaryContainer"
+                            : answer &&
+                              answer === option &&
+                              answer !== item.correctAnswer
+                            ? "errorContainer"
+                            : "secondaryContainer"
+                        }
+                        paddingVertical="vs"
+                        marginTop="vs"
+                        paddingHorizontal="vs"
+                      >
+                        <ReText variant="LabelLarge">{option}</ReText>
+                      </Box>
+                    </TouchableOpacity>
+                  )}
+                </>
               ))}
             </Box>
           </Box>
