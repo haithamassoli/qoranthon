@@ -10,7 +10,7 @@ import { getQuranByPage } from "@apis/quran";
 import Loading from "@components/loading";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { hs, ms, vs } from "@utils/platform";
-import { width } from "@utils/helper";
+import { shuffleArr, width } from "@utils/helper";
 import { Feather } from "@expo/vector-icons";
 import Colors from "@styles/colors";
 import { useEffect, useState } from "react";
@@ -23,14 +23,6 @@ import { addQuizzesCountMutation } from "@apis/users";
 import { useQueryClient } from "@tanstack/react-query";
 import NoConnection from "@components/noConnection";
 import { useNetInfo } from "@react-native-community/netinfo";
-
-const shuffleArr = (arr: any[]) => {
-  for (let i = arr.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
-    [arr[i], arr[j]] = [arr[j], arr[i]];
-  }
-  return arr;
-};
 
 const getRandomBetweenPages = (min: number, max: number) => {
   return Math.floor(Math.random() * (max - min + 1) + min);
