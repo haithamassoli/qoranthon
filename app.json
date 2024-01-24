@@ -52,17 +52,6 @@
       "@config-plugins/react-native-blob-util",
       "@config-plugins/react-native-pdf",
       [
-        "expo-font",
-        {
-          "fonts": [
-            "./assets/fonts/Cairo-Bold.ttf",
-            "./assets/fonts/Cairo-Regular.ttf",
-            "./assets/fonts/KFGQPC HAFS Uthmanic Script Regular.ttf"
-          ]
-        }
-      ],
-
-      [
         "expo-build-properties",
         {
           "ios": {
