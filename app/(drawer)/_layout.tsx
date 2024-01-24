@@ -26,7 +26,7 @@ const HomeDrawer = () => {
           title: "الرئيسة",
           headerShown: false,
           drawerIcon: ({ color }) => (
-            <Feather name="home" size={IconSize.m} color={color} />
+            <Ionicons name="home-outline" size={IconSize.m} color={color} />
           ),
         }}
       />
@@ -35,14 +35,32 @@ const HomeDrawer = () => {
         options={{
           title: "الإشعارات",
           drawerIcon: ({ color }) => (
-            <Feather name="bell" size={IconSize.m} color={color} />
+            <Ionicons
+              name="notifications-outline"
+              size={IconSize.m}
+              color={color}
+            />
           ),
         }}
       />
       <Drawer.Screen
         name="gamification"
         options={{
-          title: "اختبار الحفظ",
+          title: "اختبر نفسك",
+          headerShown: false,
+          drawerIcon: ({ color }) => (
+            <Ionicons
+              name="extension-puzzle-outline"
+              size={IconSize.m}
+              color={color}
+            />
+          ),
+        }}
+      />
+      <Drawer.Screen
+        name="quizroom"
+        options={{
+          title: "غرفة الاختبارات",
           headerShown: false,
           drawerIcon: ({ color }) => (
             <Ionicons
@@ -76,7 +94,7 @@ const HomeDrawer = () => {
         options={{
           title: "تواصل معنا",
           drawerIcon: ({ color }) => (
-            <Feather name="mail" size={IconSize.m} color={color} />
+            <Ionicons name="mail-outline" size={IconSize.m} color={color} />
           ),
         }}
       />
