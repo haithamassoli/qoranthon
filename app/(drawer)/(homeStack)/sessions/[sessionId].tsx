@@ -51,7 +51,7 @@ const SessionScreen = () => {
         />
         <TableRow
           title="جلسة"
-          value={`${dayInWeek(data?.createdAt!)} (${month}/${day})`}
+          value={`${dayInWeek(data?.createdAt!)} (${month + 1}/${day})`}
         />
         <TableRow title="الورد" value={data?.werd!} />
         <TableRow title="نوع الجلسة" value={data?.sessionType!} />
