@@ -2,7 +2,7 @@ import Snackbar from "@components/snackbar";
 import { Feather } from "@expo/vector-icons";
 import Colors from "@styles/colors";
 import { Box, ReText } from "@styles/theme";
-import { ms } from "@utils/platform";
+import { ms, vs } from "@utils/platform";
 import { router } from "expo-router";
 import { ScrollView, TouchableOpacity } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
@@ -20,7 +20,7 @@ import { useStore } from "@zustand/store";
 
 const AddQuizScreen = () => {
   const { user } = useStore();
-  const { control, handleSubmit, reset } = useForm<QuizValidationSchemaType>({
+  const { control, handleSubmit } = useForm<QuizValidationSchemaType>({
     resolver: zodResolver(quizValidationSchema),
     defaultValues: {
       title: undefined,
@@ -131,9 +131,22 @@ const AddQuizScreen = () => {
             key={field.id}
             backgroundColor="surfaceVariant"
             paddingHorizontal="hm"
-            paddingTop="vm"
             marginBottom="vm"
+            paddingTop="vm"
           >
+            {index > 0 && (
+              <TouchableOpacity
+                style={{
+                  position: "absolute",
+                  top: ms(10),
+                  right: ms(10),
+                  zIndex: 10,
+                }}
+                onPress={() => remove(index)}
+              >
+                <Feather name="x" size={ms(30)} color={Colors.onBackground} />
+              </TouchableOpacity>
+            )}
             <ControlledInput
               name={`questions.${index}.question`}
               control={control}
