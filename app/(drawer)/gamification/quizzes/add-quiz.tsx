@@ -1,25 +1,27 @@
+import { addQuizMutation } from "@apis/quizzes";
+import Loading from "@components/loading";
 import Snackbar from "@components/snackbar";
-import { Feather } from "@expo/vector-icons";
-import Colors from "@styles/colors";
-import { Box, ReText } from "@styles/theme";
-import { ms, vs } from "@utils/platform";
-import { router } from "expo-router";
-import { ScrollView, TouchableOpacity } from "react-native";
-import { useSafeAreaInsets } from "react-native-safe-area-context";
-import { useForm, useFieldArray } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
 import ControlledInput from "@components/ui/controlledInput";
 import CustomButton from "@components/ui/customButton";
+import { Feather } from "@expo/vector-icons";
+import { zodResolver } from "@hookform/resolvers/zod";
 import {
   QuizValidationSchemaType,
   quizValidationSchema,
 } from "@src/types/schema";
-import { addQuizMutation } from "@apis/quizzes";
-import Loading from "@components/loading";
+import Colors from "@styles/colors";
+import { Box, ReText } from "@styles/theme";
+import { useQueryClient } from "@tanstack/react-query";
+import { ms } from "@utils/platform";
 import { useStore } from "@zustand/store";
+import { router } from "expo-router";
+import { useFieldArray, useForm } from "react-hook-form";
+import { ScrollView, TouchableOpacity } from "react-native";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 const AddQuizScreen = () => {
   const { user } = useStore();
+  const queryClient = useQueryClient();
   const { control, handleSubmit } = useForm<QuizValidationSchemaType>({
     resolver: zodResolver(quizValidationSchema),
     defaultValues: {
@@ -70,6 +72,7 @@ const AddQuizScreen = () => {
       },
       {
         onSuccess: () => {
+          queryClient.invalidateQueries(["quizzes"]);
           useStore.setState({
             snackbarText: "تم إضافة الاختبار بنجاح",
           });
