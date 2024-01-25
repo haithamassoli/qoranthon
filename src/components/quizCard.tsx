@@ -8,6 +8,7 @@ import { deleteSessionMutation } from "@apis/sessions";
 import { useStore } from "@zustand/store";
 import Loading from "./loading";
 import { useQueryClient } from "@tanstack/react-query";
+import { deleteQuizMutation } from "@apis/quizzes";
 
 interface Props {
   createdAt: Date;
@@ -15,6 +16,7 @@ interface Props {
   sheikhName: string;
   sheikhId: string;
   onPress: () => void;
+  id: string;
 }
 
 const QuizCard = ({
@@ -22,30 +24,27 @@ const QuizCard = ({
   onPress,
   sheikhId,
   sheikhName,
+  id,
   title,
 }: Props) => {
   const date = new Date(createdAt);
   const day = date.getDate();
   const month = date.getMonth();
-  // const queryClient = useQueryClient();
+  const queryClient = useQueryClient();
 
-  const { mutate: deleteSession, isLoading: isDeleting } =
-    deleteSessionMutation();
+  const { mutate, isLoading } = deleteQuizMutation();
 
   const { user } = useStore();
-  // const onPressDeleteSession = () => {
-  //   deleteSession(
-  //     { studentId, sessionId },
-  //     {
-  //       onSuccess: () => {
-  //         queryClient.invalidateQueries(["sessions", studentId]);
-  //         useStore.setState({
-  //           snackbarText: "تم حذف الجلسة بنجاح",
-  //         });
-  //       },
-  //     }
-  //   );
-  // };
+  const onPressDeleteSession = () => {
+    mutate(id, {
+      onSuccess: () => {
+        queryClient.invalidateQueries(["quizzes"]);
+        useStore.setState({
+          snackbarText: "تم حذف الجلسة بنجاح",
+        });
+      },
+    });
+  };
 
   return (
     <TouchableOpacity onPress={onPress}>
@@ -58,7 +57,7 @@ const QuizCard = ({
         paddingHorizontal="hm"
         borderColor={"tertiary"}
       >
-        {isDeleting ? (
+        {isLoading ? (
           <Box height={vs(86)}>
             <Loading size="small" />
           </Box>
@@ -69,17 +68,18 @@ const QuizCard = ({
               {title}
             </ReText>
             <Box position="absolute" top={vs(16)} right={hs(16)}>
-              {(user?.role === "admin" || user?.role === "super") && (
-                <Box paddingVertical="vxs">
-                  {/* <TouchableOpacity onPress={onPressDeleteSession}> */}
-                  <Feather
-                    name="trash-2"
-                    size={ms(22)}
-                    color={Colors.onBackground}
-                  />
-                  {/* </TouchableOpacity> */}
-                </Box>
-              )}
+              {(user?.role === "admin" || user?.role === "super") &&
+                user.id === sheikhId && (
+                  <Box paddingVertical="vxs">
+                    <TouchableOpacity onPress={onPressDeleteSession}>
+                      <Feather
+                        name="trash-2"
+                        size={ms(22)}
+                        color={Colors.onBackground}
+                      />
+                    </TouchableOpacity>
+                  </Box>
+                )}
             </Box>
             <Box flexDirection="row" justifyContent="space-between">
               <ReText variant="BodyMedium">{dateFromNow(createdAt)}</ReText>

@@ -106,3 +106,17 @@ const addQuiz = async (data: Quiz) => {
     throw new Error(error);
   }
 };
+
+export const deleteQuizMutation = () => {
+  return useMutation({
+    mutationFn: (quizId: string) => deleteQuiz(quizId),
+    onError: (error: any) => useStore.setState({ snackbarText: error.message }),
+  });
+};
+const deleteQuiz = async (quizId: string) => {
+  try {
+    await firestore().collection("quizzes").doc(quizId).delete();
+  } catch (error: any) {
+    throw new Error(error);
+  }
+};

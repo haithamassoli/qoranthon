@@ -77,11 +77,11 @@ const Gamification = () => {
       );
     }
   };
+
   return (
     <Box
-      flex={1}
       style={{
-        paddingTop: useSafeAreaInsets().top,
+        paddingVertical: useSafeAreaInsets().top,
       }}
     >
       <Box
@@ -139,163 +139,165 @@ const Gamification = () => {
           onSelect={(item) => setType(item)}
           rowTextForSelection={(item) => item}
         />
-        <Box alignItems="center">
-          {type === "ترتيب الآيات" ? (
-            <>
-              <ControlledInput
-                control={control}
-                name="search"
-                placeholder="ادحل الصفحة المطلوبة"
-                onSubmitEditing={handleSubmit(onSearch)}
-                label="الصفحة"
-                mode="outlined"
-                width={"100%"}
-              />
-              <CustomButton
-                title="اختبار"
-                onPress={handleSubmit(onSearch)}
-                style={{ marginTop: vs(16), width: "100%" }}
-                mode="contained"
-              />
-            </>
-          ) : type === "ما هي الآية التالية؟" ? (
-            <Box gap="vs" width="100%">
-              <Box
-                flexDirection="row"
-                justifyContent="space-between"
-                alignItems="center"
-              >
-                <ReText variant="BodyLarge">من</ReText>
-                <Box width={"50%"}>
-                  <ControlledInput
-                    control={control}
-                    noError
-                    name="search"
-                    label="الصفحة"
-                    mode="outlined"
-                    onSubmitEditing={() => setFocus("search2")}
-                    width={"100%"}
-                  />
-                </Box>
-              </Box>
-              <Box
-                flexDirection="row"
-                justifyContent="space-between"
-                alignItems="center"
-              >
-                <ReText variant="BodyLarge">إلى</ReText>
-                <Box width={"50%"}>
-                  <ControlledInput
-                    control={control}
-                    noError
-                    name="search2"
-                    onSubmitEditing={handleSubmit(onSearch)}
-                    label="الصفحة"
-                    mode="outlined"
-                    width={"100%"}
-                  />
-                </Box>
-              </Box>
-              <Box
-                flexDirection="row"
-                justifyContent="space-between"
-                alignItems="center"
-              >
-                <ReText variant="BodyLarge">عدد الأسئلة</ReText>
-                <Box
-                  width={"50%"}
-                  flexDirection="row"
-                  alignItems="center"
-                  gap="hs"
-                  justifyContent="center"
-                >
-                  <TouchableOpacity
-                    disabled={numOfQuestions === "1"}
-                    onPress={() =>
-                      setNumOfQuestions((prev) => {
-                        if (+prev > 1) return (+prev - 1).toString();
-                        return prev;
-                      })
-                    }
-                  >
-                    <Ionicons
-                      name="remove-circle-outline"
-                      size={ms(24)}
-                      color={
-                        numOfQuestions === "1"
-                          ? Colors.surfaceDisabled
-                          : Colors.onBackground
-                      }
-                    />
-                  </TouchableOpacity>
-                  <ReText
-                    variant="BodyLarge"
-                    textAlign="center"
-                    lineHeight={ms(32)}
-                    marginHorizontal="hxs"
-                  >
-                    {numOfQuestions}
-                  </ReText>
-                  <TouchableOpacity
-                    onPress={() =>
-                      setNumOfQuestions((prev) => (+prev + 1).toString())
-                    }
-                  >
-                    <Ionicons
-                      name="add-circle-outline"
-                      size={ms(24)}
-                      color={Colors.onBackground}
-                    />
-                  </TouchableOpacity>
-                </Box>
-              </Box>
-              <HelperText
-                type="error"
-                visible={!!customError}
-                style={{
-                  marginTop: vs(12),
-                  width: "100%",
-                  fontSize: ms(14),
-                }}
-              >
-                {customError}
-              </HelperText>
-              <CustomButton
-                title="اختبار"
-                onPress={handleSubmit(onSearch)}
-                style={{ marginTop: vs(16) }}
-                mode="contained"
-              />
-            </Box>
-          ) : (
-            <Box width={"100%"}>
-              {isInitialLoading ? (
-                <Box height={"90%"}>
-                  <Loading />
-                </Box>
-              ) : (
-                <FlatList
-                  data={data}
-                  keyExtractor={(item) => item.id}
-                  ItemSeparatorComponent={() => <Box height={vs(16)} />}
-                  renderItem={({ item }) => (
-                    <QuizCard
-                      createdAt={item.createdAt}
-                      title={item.title}
-                      sheikhId={item.sheikhId}
-                      sheikhName={item.sheikhName}
-                      onPress={() =>
-                        router.push(
-                          `/gamification/quizzes/${item.id}?quizTitle=${item.title}`
-                        )
-                      }
-                    />
-                  )}
+        {type === "ترتيب الآيات" ? (
+          <>
+            <ControlledInput
+              control={control}
+              name="search"
+              placeholder="ادحل الصفحة المطلوبة"
+              onSubmitEditing={handleSubmit(onSearch)}
+              label="الصفحة"
+              mode="outlined"
+              width={"100%"}
+            />
+            <CustomButton
+              title="اختبار"
+              onPress={handleSubmit(onSearch)}
+              style={{ marginTop: vs(16), width: "100%" }}
+              mode="contained"
+            />
+          </>
+        ) : type === "ما هي الآية التالية؟" ? (
+          <Box gap="vs">
+            <Box
+              flexDirection="row"
+              justifyContent="space-between"
+              alignItems="center"
+            >
+              <ReText variant="BodyLarge">من</ReText>
+              <Box width={"50%"}>
+                <ControlledInput
+                  control={control}
+                  noError
+                  name="search"
+                  label="الصفحة"
+                  mode="outlined"
+                  onSubmitEditing={() => setFocus("search2")}
+                  width={"100%"}
                 />
-              )}
+              </Box>
             </Box>
-          )}
-        </Box>
+            <Box
+              flexDirection="row"
+              justifyContent="space-between"
+              alignItems="center"
+            >
+              <ReText variant="BodyLarge">إلى</ReText>
+              <Box width={"50%"}>
+                <ControlledInput
+                  control={control}
+                  noError
+                  name="search2"
+                  onSubmitEditing={handleSubmit(onSearch)}
+                  label="الصفحة"
+                  mode="outlined"
+                  width={"100%"}
+                />
+              </Box>
+            </Box>
+            <Box
+              flexDirection="row"
+              justifyContent="space-between"
+              alignItems="center"
+            >
+              <ReText variant="BodyLarge">عدد الأسئلة</ReText>
+              <Box
+                width={"50%"}
+                flexDirection="row"
+                alignItems="center"
+                gap="hs"
+                justifyContent="center"
+              >
+                <TouchableOpacity
+                  disabled={numOfQuestions === "1"}
+                  onPress={() =>
+                    setNumOfQuestions((prev) => {
+                      if (+prev > 1) return (+prev - 1).toString();
+                      return prev;
+                    })
+                  }
+                >
+                  <Ionicons
+                    name="remove-circle-outline"
+                    size={ms(24)}
+                    color={
+                      numOfQuestions === "1"
+                        ? Colors.surfaceDisabled
+                        : Colors.onBackground
+                    }
+                  />
+                </TouchableOpacity>
+                <ReText
+                  variant="BodyLarge"
+                  textAlign="center"
+                  lineHeight={ms(32)}
+                  marginHorizontal="hxs"
+                >
+                  {numOfQuestions}
+                </ReText>
+                <TouchableOpacity
+                  onPress={() =>
+                    setNumOfQuestions((prev) => (+prev + 1).toString())
+                  }
+                >
+                  <Ionicons
+                    name="add-circle-outline"
+                    size={ms(24)}
+                    color={Colors.onBackground}
+                  />
+                </TouchableOpacity>
+              </Box>
+            </Box>
+            <HelperText
+              type="error"
+              visible={!!customError}
+              style={{
+                marginTop: vs(12),
+                width: "100%",
+                fontSize: ms(14),
+              }}
+            >
+              {customError}
+            </HelperText>
+            <CustomButton
+              title="اختبار"
+              onPress={handleSubmit(onSearch)}
+              style={{ marginTop: vs(16) }}
+              mode="contained"
+            />
+          </Box>
+        ) : (
+          <>
+            {isInitialLoading ? (
+              <Box height={"90%"}>
+                <Loading />
+              </Box>
+            ) : (
+              <FlatList
+                data={data}
+                keyExtractor={(item) => item.id}
+                contentContainerStyle={{
+                  paddingBottom: vs(236),
+                }}
+                ItemSeparatorComponent={() => <Box height={vs(16)} />}
+                renderItem={({ item }) => (
+                  <QuizCard
+                    id={item.id}
+                    createdAt={item.createdAt}
+                    title={item.title}
+                    sheikhId={item.sheikhId}
+                    sheikhName={item.sheikhName}
+                    onPress={() =>
+                      router.push(
+                        `/gamification/quizzes/${item.id}?quizTitle=${item.title}`
+                      )
+                    }
+                  />
+                )}
+              />
+            )}
+          </>
+        )}
       </Box>
     </Box>
   );
