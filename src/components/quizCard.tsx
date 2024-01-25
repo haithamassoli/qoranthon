@@ -4,7 +4,6 @@ import { hs, ms, vs } from "@utils/platform";
 import { TouchableOpacity } from "react-native";
 import Colors from "@styles/colors";
 import { Feather } from "@expo/vector-icons";
-import { deleteSessionMutation } from "@apis/sessions";
 import { useStore } from "@zustand/store";
 import Loading from "./loading";
 import { useQueryClient } from "@tanstack/react-query";
