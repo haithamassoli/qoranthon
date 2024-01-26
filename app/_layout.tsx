@@ -51,6 +51,9 @@ Notifications.setNotificationHandler({
     shouldSetBadge: true,
   }),
 });
+// console.log = () => {};
+// console.error = () => {};
+// console.debug = () => {};
 
 const queryClient = new QueryClient({
   defaultOptions: {
