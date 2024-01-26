@@ -104,6 +104,15 @@ export const quizValidationSchema = z.object({
 });
 
 export type QuizValidationSchemaType = z.infer<typeof quizValidationSchema>;
+export const enterGameValidationSchema = z.object({
+  shortCode: z.string({
+    required_error: "رمز الدخول يجب أن لا يكون فارغًا",
+  }),
+});
+
+export type EnterGameValidationSchemaType = z.infer<
+  typeof enterGameValidationSchema
+>;
 export const editStudentValidationSchema = z.object({
   name: z.optional(
     z
