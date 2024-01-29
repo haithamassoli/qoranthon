@@ -1,4 +1,4 @@
-import { Feather, Ionicons } from "@expo/vector-icons";
+import { Feather, Ionicons, FontAwesome6 } from "@expo/vector-icons";
 import CustomDrawer from "@src/layouts/custom-drawer";
 import { IconSize } from "@styles/size";
 import { ms } from "@utils/platform";
@@ -54,6 +54,16 @@ const HomeDrawer = () => {
               size={IconSize.m}
               color={color}
             />
+          ),
+        }}
+      />
+      <Drawer.Screen
+        name="salfah"
+        options={{
+          title: "برا السالفة",
+          headerShown: false,
+          drawerIcon: ({ color }) => (
+            <FontAwesome6 name="chess-knight" size={IconSize.m} color={color} />
           ),
         }}
       />
