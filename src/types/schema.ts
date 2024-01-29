@@ -104,6 +104,25 @@ export const quizValidationSchema = z.object({
 });
 
 export type QuizValidationSchemaType = z.infer<typeof quizValidationSchema>;
+export const salfahValidationSchema = z.object({
+  players: z
+    .array(
+      z.object({
+        name: z.string({
+          required_error: "الاسم يجب أن لا يكون فارغًا",
+        }),
+      })
+    )
+    .min(3, "اللاعبين يجب أن يكونوا لاعبين اثنين على الأقل")
+    .refine(
+      (items) => new Set(items.map((item) => item.name)).size === items.length,
+      {
+        message: "يجب أن يكون اللاعبين مختلفين",
+      }
+    ),
+});
+
+export type SalfahValidationSchemaType = z.infer<typeof salfahValidationSchema>;
 export const enterGameValidationSchema = z.object({
   shortCode: z.string({
     required_error: "رمز الدخول يجب أن لا يكون فارغًا",
