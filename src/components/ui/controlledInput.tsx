@@ -8,6 +8,7 @@ type ControlledInputProps = {
   control: Control<any>;
   name: string;
   width?: any;
+  defaultValue?: string;
   noError?: boolean;
 } & React.ComponentProps<typeof TextInput>;
 
@@ -15,6 +16,7 @@ const ControlledInput = ({
   control,
   name,
   width,
+  defaultValue,
   noError = false,
   ...textInputProps
 }: ControlledInputProps) => {
@@ -22,6 +24,7 @@ const ControlledInput = ({
     <Controller
       control={control}
       name={name}
+      defaultValue={defaultValue}
       render={({
         field: { value, onChange, onBlur },
         fieldState: { error, invalid },
