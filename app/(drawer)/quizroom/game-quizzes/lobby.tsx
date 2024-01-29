@@ -8,6 +8,7 @@ import Colors from "@styles/colors";
 import { ms, vs } from "@utils/platform";
 import { Feather } from "@expo/vector-icons";
 import CustomButton from "@components/ui/customButton";
+import { useStore } from "@zustand/store";
 
 const LobbyScreen = () => {
   const {
@@ -17,6 +18,7 @@ const LobbyScreen = () => {
     gameId: string;
     roomTitle: string;
   } = useLocalSearchParams();
+  const { user } = useStore();
   const [players, setPlayers] = useState<any[]>([]);
   const [state, setState] = useState<
     "showingQuestion" | "waitingForPlayers" | "draft" | "showingQuestionResults"
@@ -52,7 +54,7 @@ const LobbyScreen = () => {
 
   useEffect(() => {
     if (state === "showingQuestion") {
-      router.push(`/quizroom/game-quizzes/${gameId}`);
+      router.push(`/quizroom/game-quizzes/${gameId}?roomTitle=${roomTitle}`);
     }
   }, [state]);
 
@@ -115,25 +117,14 @@ const LobbyScreen = () => {
               </ReText>
             </Box>
           ))}
-
-          <ReText variant="BodyLarge" color="primary">
-            خالد العمري
-          </ReText>
-          <ReText variant="BodyLarge" color="primary">
-            محمد العنزي
-          </ReText>
-          <ReText variant="BodyLarge" color="primary">
-            فهد القحطاني
-          </ReText>
-          <ReText variant="BodyLarge" color="primary">
-            سعد العتيبي
-          </ReText>
         </Box>
-        <CustomButton
-          style={{ marginTop: vs(68) }}
-          title="ابدأ الغرفة"
-          onPress={onStart}
-        />
+        {user?.role !== "user" && (
+          <CustomButton
+            style={{ marginTop: vs(68) }}
+            title="ابدأ الغرفة"
+            onPress={onStart}
+          />
+        )}
       </Box>
     </ScrollView>
   );

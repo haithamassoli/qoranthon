@@ -268,3 +268,32 @@ const enterGame = async (data: Player) => {
     throw new Error(error.message);
   }
 };
+
+export const getGamePlayersQuery = (gameId: string) => {
+  return useQuery({
+    queryKey: ["gamePlayers", gameId],
+    queryFn: () => getGamePlayers(gameId),
+    onError: (error: any) => useStore.setState({ snackbarText: error.message }),
+  });
+};
+
+const getGamePlayers = async (gameId: string) => {
+  try {
+    let players: any[] = [];
+    const querySnapshot = await firestore()
+      .collection("games")
+      .doc(gameId)
+      .collection("players")
+      .orderBy("score", "desc")
+      .get();
+    querySnapshot.forEach((doc) => {
+      players.push({
+        ...doc.data(),
+        id: doc.id,
+      });
+    });
+    return players;
+  } catch (error: any) {
+    throw new Error(error.message);
+  }
+};
