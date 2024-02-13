@@ -1,9 +1,10 @@
-import { getGamePlayersQuery } from "@apis/quizzes";
+import { draftGameMutation, getGamePlayersQuery } from "@apis/quizzes";
 import Loading from "@components/loading";
 import { Feather, Ionicons } from "@expo/vector-icons";
 import Colors from "@styles/colors";
 import { Box, ReText } from "@styles/theme";
 import { hs, ms, vs } from "@utils/platform";
+import { useStore } from "@zustand/store";
 import { router, useLocalSearchParams } from "expo-router";
 import { FlatList, TouchableOpacity } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
@@ -15,7 +16,19 @@ const ResultScreen = () => {
     quizId: string;
   } = useLocalSearchParams();
 
+  const { user } = useStore();
   const { data, isInitialLoading } = getGamePlayersQuery(quizId);
+  const { mutate: draft } = draftGameMutation();
+
+  const onBack = () => {
+    if (user?.role === "user") {
+      router.replace("/quizroom/");
+    } else {
+      draft(quizId, {
+        onSuccess: () => router.replace("/quizroom/"),
+      });
+    }
+  };
 
   if (isInitialLoading) return <Loading />;
 
@@ -34,7 +47,7 @@ const ResultScreen = () => {
         marginBottom="vxl"
       >
         <Box flexDirection="row" alignItems="center">
-          <TouchableOpacity onPress={() => router.back()}>
+          <TouchableOpacity onPress={onBack}>
             <Feather
               name="chevrons-right"
               size={ms(30)}
