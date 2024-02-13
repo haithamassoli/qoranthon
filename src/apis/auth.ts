@@ -1,6 +1,6 @@
 import { storeDataMMKV } from "@utils/helper";
 import firestore from "@react-native-firebase/firestore";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import { useStore } from "@zustand/store";
 
 interface ILoginData {
@@ -238,6 +238,87 @@ export const editPasswordMutation = () => {
 const editPassword = async (id: string, password: string) => {
   try {
     await firestore().collection("users").doc(id).update({ password });
+  } catch (error: any) {
+    throw new Error(error.message);
+  }
+};
+
+type Request = {
+  name: string;
+  telegram: string;
+  sex: Sex;
+};
+
+type Sex = "ذكر" | "أنثى";
+export const addRequestMutation = () => {
+  return useMutation({
+    mutationFn: (data: Request) =>
+      addRequest(data.name, data.telegram, data.sex),
+    onError: (error: any) => {
+      useStore.setState({ snackbarText: error.message });
+    },
+  });
+};
+
+const addRequest = async (name: string, telegram: string, sex: Sex) => {
+  try {
+    await firestore().collection("requests").add({
+      name,
+      telegram,
+      sex,
+      createdAt: firestore.FieldValue.serverTimestamp(),
+    });
+  } catch (error: any) {
+    throw new Error(error.message);
+  }
+};
+
+export const getRequestsQuery = () => {
+  return useQuery({
+    queryKey: ["requests"],
+    queryFn: () => getRequests(),
+    onError: (error: any) => {
+      useStore.setState({ snackbarText: error.message });
+    },
+  });
+};
+const getRequests = async () => {
+  try {
+    const requests: (Request & { id: string } & { createdAt: Date })[] = [];
+    await firestore()
+      .collection("requests")
+      .orderBy("createdAt", "desc")
+      .get()
+      .then((res) => {
+        res.forEach((doc) => {
+          requests.push({
+            ...doc.data(),
+            id: doc.id,
+            name: doc.data().name,
+            telegram: doc.data().telegram,
+            sex: doc.data().sex,
+            createdAt: doc.data().createdAt.toDate(),
+          });
+        });
+      });
+    return requests;
+  } catch (error: any) {
+    throw new Error(error.message);
+  }
+};
+
+export const deleteRequestMutation = () => {
+  return useMutation({
+    mutationFn: (id: string) => deleteRequest(id),
+    onError: (error: any) => {
+      useStore.setState({ snackbarText: error.message });
+    },
+  });
+};
+
+const deleteRequest = async (id: string) => {
+  try {
+    await firestore().collection("requests").doc(id).delete();
   } catch (error: any) {
     throw new Error(error.message);
   }
