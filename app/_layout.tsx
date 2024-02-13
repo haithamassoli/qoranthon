@@ -293,7 +293,14 @@ export const App = () => {
                 headerShown: false,
                 animation: "slide_from_left",
               }}
-            />
+            >
+              <Stack.Screen
+                name="modal"
+                options={{
+                  presentation: "modal",
+                }}
+              />
+            </Stack>
           </Box>
         </ThemeProvider>
       </PaperProvider>
