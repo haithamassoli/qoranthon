@@ -138,6 +138,15 @@ const register = async (
   try {
     await firestore()
       .collection("users")
+      .where("email", "==", email)
+      .get()
+      .then((res) => {
+        if (res.docs.length) {
+          throw new Error("البريد الإلكتروني مسجل مسبقاً");
+        }
+      });
+    await firestore()
+      .collection("users")
       .add({
         email,
         password,
@@ -164,6 +173,15 @@ export const addStudentMutation = () => {
 
 const addStudent = async (data: IRegisterStudentData) => {
   try {
+    await firestore()
+      .collection("users")
+      .where("studentId", "==", data.studentId)
+      .get()
+      .then((res) => {
+        if (res.docs.length) {
+          throw new Error("رقم تسجيل الطالب مسجل مسبقاً");
+        }
+      });
     await firestore()
       .collection("users")
       .add({
