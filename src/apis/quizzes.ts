@@ -297,3 +297,60 @@ const getGamePlayers = async (gameId: string) => {
     throw new Error(error.message);
   }
 };
+
+export const startGameMutation = () => {
+  return useMutation({
+    mutationFn: (gameId: string) => startGame(gameId),
+    onError: (error: any) => useStore.setState({ snackbarText: error.message }),
+  });
+};
+const startGame = async (gameId: string) => {
+  try {
+    const shortCode = Math.floor(1000 + Math.random() * 9000).toString();
+    await firestore().collection("games").doc(gameId).update({
+      state: "waitingForPlayers",
+      shortCode,
+    });
+    // delete all players
+    await firestore()
+      .collection("games")
+      .doc(gameId)
+      .collection("players")
+      .get()
+      .then((querySnapshot) => {
+        querySnapshot.forEach((doc) => {
+          doc.ref.delete();
+        });
+      });
+    await firestore()
+      .collection("games")
+      .doc(gameId)
+      .collection("answers")
+      .get()
+      .then((querySnapshot) => {
+        querySnapshot.forEach((doc) => {
+          doc.ref.delete();
+        });
+      });
+
+    return shortCode;
+  } catch (error: any) {
+    throw new Error(error);
+  }
+};
+
+export const draftGameMutation = () => {
+  return useMutation({
+    mutationFn: (gameId: string) => draftGame(gameId),
+    onError: (error: any) => useStore.setState({ snackbarText: error.message }),
+  });
+};
+const draftGame = async (gameId: string) => {
+  try {
+    await firestore().collection("games").doc(gameId).update({
+      state: "draft",
+    });
+  } catch (error: any) {
+    throw new Error(error);
+  }
+};
