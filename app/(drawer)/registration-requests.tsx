@@ -12,6 +12,7 @@ import { Feather } from "@expo/vector-icons";
 import { useStore } from "@zustand/store";
 import Snackbar from "@components/snackbar";
 import RequestCard from "@components/requestCard";
+import { useQueryClient } from "@tanstack/react-query";
 
 const ItemSeparatorComponent = () => <Box height={vs(16)} />;
 
@@ -30,11 +31,14 @@ const RegistrationRequestsScreen = () => {
   const navigation: any = useNavigation();
   const { data, isInitialLoading } = getRequestsQuery();
   const { mutate, isLoading } = deleteRequestMutation();
+  const queryClient = useQueryClient();
 
   const onDelete = (id: string) => {
     mutate(id, {
-      onSuccess: () =>
-        useStore.setState({ snackbarText: "تم حذف الطلب بنجاح" }),
+      onSuccess: () => {
+        queryClient.invalidateQueries(["requests"]);
+        useStore.setState({ snackbarText: "تم حذف الطلب بنجاح" });
+      },
     });
   };
 
