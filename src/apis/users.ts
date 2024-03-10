@@ -321,3 +321,37 @@ const addQuizzesCount = async (data: { studentId: string }) => {
     throw new Error(error.message);
   }
 };
+
+export const getAdminsAndManagersQuery = () => {
+  return useQuery({
+    queryKey: ["adminsAndManagers"],
+    queryFn: () => getAdminsAndManagers(),
+    onError: (error: any) => useStore.setState({ snackbarText: error.message }),
+  });
+};
+
+const getAdminsAndManagers = async () => {
+  try {
+    const querySnapshot = await firestore()
+      .collection("users")
+      .where("role", "!=", "user")
+      .get();
+    let admins: any[] = [];
+    querySnapshot.forEach((doc) => {
+      admins.push({
+        ...doc.data(),
+        id: doc.id,
+      });
+    });
+    return admins as {
+      id: string;
+      name: string;
+      email: string;
+      phone?: string;
+      role: string;
+      pushNotificationsToken?: string;
+    }[];
+  } catch (error: any) {
+    throw new Error(error.message);
+  }
+};

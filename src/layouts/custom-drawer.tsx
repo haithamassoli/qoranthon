@@ -60,11 +60,10 @@ const CustomDrawer = (props: any) => {
 
             const isFocused = props.state.index === index;
 
-            const onPress = () => {
-              if (route.name !== "statistics") {
-                props.navigation.navigate(route.name);
-              }
-            };
+            if (route.name === "registration-requests" && user?.role == "user")
+              return null;
+
+            const onPress = () => props.navigation.navigate(route.name);
 
             return (
               <Drawer.Item
