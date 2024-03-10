@@ -44,7 +44,11 @@ const Leaderboard = () => {
           ),
         }}
       />
-      <Box height={vs(36)} />
+      <Box height={vs(18)} />
+      <ReText variant="TitleMedium" textAlign="center">
+        المتصدرين لآخر 7 أيام
+      </ReText>
+      <Box height={vs(28)} />
       <Box
         flexDirection="row"
         paddingHorizontal="hs"

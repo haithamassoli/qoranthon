@@ -23,7 +23,11 @@ const getUsersLeaderboardCollection = async (managerId: string) => {
         .doc(userDoc.id)
         .collection("sessions")
         .orderBy("createdAt", "desc")
-        .limit(14)
+        .where(
+          "createdAt",
+          ">",
+          new Date(new Date().setDate(new Date().getDate() - 7))
+        )
         .get();
 
       querySnapshot.forEach((doc) => {
