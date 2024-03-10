@@ -1,4 +1,4 @@
-import { Feather, Ionicons, FontAwesome6 } from "@expo/vector-icons";
+import { Feather, Ionicons } from "@expo/vector-icons";
 import CustomDrawer from "@src/layouts/custom-drawer";
 import { IconSize } from "@styles/size";
 import { ms } from "@utils/platform";
@@ -62,9 +62,9 @@ const HomeDrawer = () => {
         options={{
           title: "برا السالفة",
           headerShown: false,
-          drawerIcon: ({ color }) => (
-            <FontAwesome6 name="chess-knight" size={IconSize.m} color={color} />
-          ),
+          // drawerIcon: ({ color }) => (
+          //   <AntDesign name="QQ" size={IconSize.m} color={color} />
+          // ),
         }}
       />
       <Drawer.Screen
@@ -91,12 +91,12 @@ const HomeDrawer = () => {
         }}
       />
       <Drawer.Screen
-        name="statistics"
+        name="registration-requests"
         options={{
-          title: "إحصائيات  (قريــبا)",
-          drawerIcon: ({ color }) => (
-            <Feather name="bar-chart-2" size={IconSize.m} color={color} />
-          ),
+          title: "طلبات التسجيل",
+          drawerIcon: ({ color }) => {
+            return <Feather name="users" size={IconSize.m} color={color} />;
+          },
         }}
       />
       <Drawer.Screen
