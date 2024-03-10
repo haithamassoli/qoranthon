@@ -1208,10 +1208,10 @@
   resolved "https://registry.yarnpkg.com/@config-plugins/react-native-blob-util/-/react-native-blob-util-7.0.0.tgz#79b3a160b7fa16bb74b712ecfa0ddf3181662536"
   integrity sha512-9Rb81p/dCEy4g9bMnfVz65LTG/cQeQQIgWeFIYRDGiMMeLRaPjbw+wehMtGndhq2XGWWuRJ6xa7z5mWDUCerKQ==
 
-"@config-plugins/react-native-pdf@^6.0.0":
-  version "6.0.0"
-  resolved "https://registry.yarnpkg.com/@config-plugins/react-native-pdf/-/react-native-pdf-6.0.0.tgz#0376c16a2565331b9eecf81949d8ee54ec61f5b8"
-  integrity sha512-qgKh0pc11wuaS1Rg90VnhzoajbC7S9wY86U9ui+mJtD/W9l9QZ2hJVE1EakG8w2huPFVan3eWkqKH+dtLbcEkQ==
+"@config-plugins/react-native-pdf@^7.0.0":
+  version "7.0.0"
+  resolved "https://registry.yarnpkg.com/@config-plugins/react-native-pdf/-/react-native-pdf-7.0.0.tgz#68d7b384d4c7a6136f97d99fc21e008229f36f78"
+  integrity sha512-+FQ/iV0f3bhNncylrLCFuJUguuCszQ62veNiop7NS0Z7Ypsm2EYuOANrPpTlm2RqNRsxarEEZggPTZhPnfWtug==
 
 "@egjs/hammerjs@^2.0.17":
   version "2.0.17"
