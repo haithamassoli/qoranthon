@@ -70,15 +70,15 @@ const HomeDrawer = () => {
       <Drawer.Screen
         name="quizroom"
         options={{
-          title: "غرفة الاختبارات",
+          title: "غرف الاختبارات",
           headerShown: false,
-          drawerIcon: ({ color }) => (
-            <Ionicons
-              name="game-controller-outline"
-              size={IconSize.m}
-              color={color}
-            />
-          ),
+          // drawerIcon: ({ color }) => (
+          //   <Ionicons
+          //     name="game-controller-outline"
+          //     size={IconSize.m}
+          //     color={color}
+          //   />
+          // ),
         }}
       />
       <Drawer.Screen

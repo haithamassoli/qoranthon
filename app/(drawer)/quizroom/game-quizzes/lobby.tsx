@@ -9,6 +9,9 @@ import { ms, vs } from "@utils/platform";
 import { Feather } from "@expo/vector-icons";
 import CustomButton from "@components/ui/customButton";
 import { useStore } from "@zustand/store";
+import { draftGameMutation, startGameMutation } from "@apis/quizzes";
+import Loading from "@components/loading";
+import Snackbar from "@components/snackbar";
 
 const LobbyScreen = () => {
   const {
@@ -20,9 +23,28 @@ const LobbyScreen = () => {
   } = useLocalSearchParams();
   const { user } = useStore();
   const [players, setPlayers] = useState<any[]>([]);
+  const [code, setCode] = useState("");
   const [state, setState] = useState<
     "showingQuestion" | "waitingForPlayers" | "draft" | "showingQuestionResults"
   >("waitingForPlayers");
+  const { mutate, isLoading } = startGameMutation();
+  const { mutate: draft } = draftGameMutation();
+
+  const onBack = () => {
+    draft(gameId, {
+      onSuccess: () => router.back(),
+    });
+  };
+
+  useEffect(() => {
+    if (user?.role !== "user") {
+      mutate(gameId, {
+        onSuccess: (shortCode) => {
+          setCode(shortCode);
+        },
+      });
+    }
+  }, []);
 
   useEffect(() => {
     const unsubscribe = firestore()
@@ -59,10 +81,17 @@ const LobbyScreen = () => {
   }, [state]);
 
   const onStart = () => {
+    if (players.length < 1) {
+      return useStore.setState({
+        snackbarText: "يجب أن يكون هناك لاعبين اثنين على الأقل",
+      });
+    }
     firestore().collection("games").doc(gameId).update({
       state: "showingQuestion",
     });
   };
+
+  if (isLoading) return <Loading />;
 
   return (
     <ScrollView
@@ -71,6 +100,7 @@ const LobbyScreen = () => {
         flexGrow: 1,
       }}
     >
+      <Snackbar />
       <Box
         flex={1}
         paddingHorizontal="hm"
@@ -85,7 +115,7 @@ const LobbyScreen = () => {
           marginBottom="vxl"
         >
           <Box flexDirection="row" alignItems="center">
-            <TouchableOpacity onPress={() => router.back()}>
+            <TouchableOpacity onPress={onBack}>
               <Feather
                 name="chevrons-right"
                 size={ms(30)}
@@ -98,8 +128,11 @@ const LobbyScreen = () => {
         <ReText
           variant="TitleMedium"
           textAlign="center"
-          fontFamily="Cairo-Regular"
+          fontFamily="Cairo-Bold"
         >
+          رمز الغرفة: {code}
+        </ReText>
+        <ReText variant="TitleMedium" textAlign="center">
           في انتظار انضمام اللاعبين...
         </ReText>
         <Box

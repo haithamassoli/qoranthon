@@ -136,6 +136,9 @@ export const getSheikhQuizzesQuery = (enabled: boolean, sheikhId: string) => {
     queryFn: () => getSheikhQuizzes(sheikhId),
     onError: (error: any) => useStore.setState({ snackbarText: error.message }),
     enabled,
+    cacheTime: 0,
+    staleTime: 0,
+    networkMode: "online",
   });
 };
 
@@ -228,6 +231,8 @@ export const enterGameMutation = () => {
   return useMutation({
     mutationFn: (data: Player) => enterGame(data),
     onError: (error: any) => useStore.setState({ snackbarText: error.message }),
+    cacheTime: 0,
+    networkMode: "online",
   });
 };
 
@@ -274,6 +279,9 @@ export const getGamePlayersQuery = (gameId: string) => {
     queryKey: ["gamePlayers", gameId],
     queryFn: () => getGamePlayers(gameId),
     onError: (error: any) => useStore.setState({ snackbarText: error.message }),
+    cacheTime: 0,
+    staleTime: 0,
+    networkMode: "online",
   });
 };
 
@@ -302,6 +310,8 @@ export const startGameMutation = () => {
   return useMutation({
     mutationFn: (gameId: string) => startGame(gameId),
     onError: (error: any) => useStore.setState({ snackbarText: error.message }),
+    cacheTime: 0,
+    networkMode: "online",
   });
 };
 const startGame = async (gameId: string) => {
@@ -343,6 +353,8 @@ export const draftGameMutation = () => {
   return useMutation({
     mutationFn: (gameId: string) => draftGame(gameId),
     onError: (error: any) => useStore.setState({ snackbarText: error.message }),
+    cacheTime: 0,
+    networkMode: "online",
   });
 };
 const draftGame = async (gameId: string) => {

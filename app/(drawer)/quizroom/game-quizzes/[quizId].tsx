@@ -7,7 +7,7 @@ import { width } from "@utils/helper";
 import { hs, ms, vs } from "@utils/platform";
 import { useStore } from "@zustand/store";
 import { router, useLocalSearchParams } from "expo-router";
-import { useEffect, useRef, useState } from "react";
+import { Fragment, useEffect, useRef, useState } from "react";
 import { FlatList, StyleSheet, TouchableOpacity } from "react-native";
 import { Modal, Portal, ProgressBar } from "react-native-paper";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
@@ -37,7 +37,6 @@ const GameQuizScreen = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [answer, setAnswer] = useState("");
   const [answers, setAnswers] = useState([]);
-  const [players, setPlayers] = useState([]);
   const [showResult, setShowResult] = useState(false);
   const [data, setData] = useState<GameQuiz[]>([]);
 
@@ -46,7 +45,7 @@ const GameQuizScreen = () => {
 
   const onAnswer = async (option: string) => {
     setAnswer(option);
-    firestore()
+    await firestore()
       .collection("games")
       .doc(quizId)
       .collection("answers")
@@ -61,24 +60,28 @@ const GameQuizScreen = () => {
         playerName: user?.name,
         gameId: quizId,
       });
+    await firestore()
+      .collection("games")
+      .doc(quizId)
+      .collection("players")
+      .where("playerId", "==", user?.id)
+      .get()
+      .then((querySnapshot) => {
+        querySnapshot.forEach((doc) => {
+          doc.ref.update({
+            score:
+              option === data[currentIndex].correctAnswer
+                ? firestore.FieldValue.increment(1)
+                : firestore.FieldValue.increment(0),
+          });
+        });
+      });
   };
 
   const handleNotAnswered = async () => {
     if (user?.role !== "user") {
       setShowResult(true);
     }
-    // await wait(2000);
-    // setWrong((prev) => prev + 1);
-    // if (currentIndex >= data!.length - 1) {
-    // } else {
-    //   setAnswer("");
-    //   setTimer(30);
-    //   setCurrentIndex((prev) => prev + 1);
-    //   ref.current?.scrollToIndex({
-    //     index: currentIndex + 1,
-    //     animated: true,
-    //   });
-    // }
   };
 
   const onNextQus = async () => {
@@ -120,6 +123,7 @@ const GameQuizScreen = () => {
         });
         setData(data as GameQuiz[]);
       });
+
     const unsubscribe2 = firestore()
       .collection("games")
       .doc(quizId)
@@ -132,19 +136,31 @@ const GameQuizScreen = () => {
           };
         });
         setAnswers(data);
-      });
-    const unsubscribe3 = firestore()
-      .collection("games")
-      .doc(quizId)
-      .collection("players")
-      .onSnapshot((snapshot) => {
-        const data = snapshot.docs.map((doc) => {
-          return {
-            id: doc.id,
-            ...doc.data(),
-          };
-        });
-        setPlayers(data);
+
+        const unsubscribe3 = firestore()
+          .collection("games")
+          .doc(quizId)
+          .collection("players")
+          .onSnapshot((snapshot2) => {
+            const data2 = snapshot2.docs.map((doc2) => {
+              return {
+                id: doc2.id,
+                ...doc2.data(),
+              };
+            });
+
+            if (data2.length > 0 && data.length > 0) {
+              const playersAnswered = data.filter(
+                (answer) => answer?.question === data[currentIndex]?.question
+              );
+              if (
+                playersAnswered.length === data2.length &&
+                playersAnswered.length > 0
+              ) {
+                setTimer(0);
+              }
+            }
+          });
       });
 
     const unsubscribe4 = firestore()
@@ -160,10 +176,6 @@ const GameQuizScreen = () => {
             index: currentIndex + 1,
             animated: true,
           });
-          // firestore().collection("games").doc(quizId).update({
-          //   state: "showingQuestion",
-          // });
-
           snapshot.ref.update({
             state: "showingQuestion",
           });
@@ -176,7 +188,6 @@ const GameQuizScreen = () => {
     return () => {
       unsubscribe();
       unsubscribe2();
-      unsubscribe3();
       unsubscribe4();
     };
   }, []);
@@ -209,7 +220,10 @@ const GameQuizScreen = () => {
             gap="hs"
           >
             <CustomButton mode="text" title="لا" onPress={hideExitModal} />
-            <CustomButton title="نعم" onPress={() => router.back()} />
+            <CustomButton
+              title="نعم"
+              onPress={() => router.replace("/quizroom/")}
+            />
           </Box>
         </Modal>
       </Portal>
@@ -288,8 +302,8 @@ const GameQuizScreen = () => {
                   </ReText>
                 </TouchableOpacity>
               )}
-              {item.options.map((option: string) => (
-                <>
+              {item.options.map((option: string, index: number) => (
+                <Fragment key={index.toString()}>
                   {option.length > 0 && (
                     <TouchableOpacity
                       key={option}
@@ -300,7 +314,13 @@ const GameQuizScreen = () => {
                       <Box
                         borderRadius="m"
                         backgroundColor={
-                          answer && option === item.correctAnswer && timer <= 0
+                          user?.role !== "user"
+                            ? option === item.correctAnswer && timer <= 0
+                              ? "tertiaryContainer"
+                              : "secondaryContainer"
+                            : answer &&
+                              option === item.correctAnswer &&
+                              timer <= 0
                             ? "tertiaryContainer"
                             : answer &&
                               answer === option &&
@@ -310,9 +330,16 @@ const GameQuizScreen = () => {
                             : "secondaryContainer"
                         }
                         paddingVertical="vs"
+                        borderWidth={
+                          answer && answer === option ? 4 : undefined
+                        }
+                        borderColor={
+                          answer && answer === option ? "primary" : undefined
+                        }
                         marginTop="vs"
                         paddingHorizontal="vs"
                         flexDirection="row"
+                        justifyContent="space-between"
                         alignItems="center"
                         gap="hxs"
                       >
@@ -331,7 +358,7 @@ const GameQuizScreen = () => {
                       </Box>
                     </TouchableOpacity>
                   )}
-                </>
+                </Fragment>
               ))}
             </Box>
           </Box>

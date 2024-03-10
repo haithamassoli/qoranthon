@@ -69,7 +69,7 @@ const QuizRoomScreen = () => {
       >
         <HeaderRight onPress={() => navigation.openDrawer()} />
         <ReText variant="TitleLarge" marginLeft="hs">
-          غرفة الاختبارات
+          غرف الاختبارات
         </ReText>
         <Box width={"10%"} />
       </Box>
@@ -107,6 +107,11 @@ const QuizRoomScreen = () => {
               <Feather name="plus" size={ms(30)} color="black" />
             </TouchableOpacity>
           </Box>
+          <ReText variant="BodyLarge" marginTop="vs">
+            {data?.length === 0
+              ? "لا يوجد غرف حتى الآن"
+              : "اضغط على الاختبار لبدء الغرفة"}
+          </ReText>
           <>
             {isInitialLoading ? (
               <Box height={"90%"}>
