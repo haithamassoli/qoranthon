@@ -57,6 +57,26 @@ export type RegisterValidationSchemaType = z.infer<
   typeof registerValidationSchema
 >;
 
+export const registrationRequestsSchema = z.object({
+  name: z
+    .string({
+      required_error: "الاسم يجب أن لا يكون فارغًا",
+    })
+    .min(4, "الاسم يجب أن يكون 4 أحرف على الأقل"),
+  telegram: z
+    .string({
+      required_error: "معرف التيليجرام يجب أن لا يكون فارغًا",
+    })
+    .min(4, "التيليجرام يجب أن يكون 4 أحرف على الأقل"),
+  sex: z.enum(["ذكر", "أنثى"], {
+    required_error: "الجنس يجب أن لا يكون فارغًا",
+  }),
+});
+
+export type RegistrationRequestsSchemaType = z.infer<
+  typeof registrationRequestsSchema
+>;
+
 export const studentValidationSchema = z.object({
   name: z
     .string({
