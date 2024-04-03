@@ -100,15 +100,6 @@ const HomeDrawer = () => {
         }}
       />
       <Drawer.Screen
-        name="contact"
-        options={{
-          title: "تواصل معنا",
-          drawerIcon: ({ color }) => (
-            <Ionicons name="mail-outline" size={IconSize.m} color={color} />
-          ),
-        }}
-      />
-      <Drawer.Screen
         name="about"
         options={{
           title: "عن التطبيق",
