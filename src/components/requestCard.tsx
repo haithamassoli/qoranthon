@@ -16,8 +16,9 @@ interface Props {
 
 const RequestCard = ({ telegram, name, createdAt, sex, onPress }: Props) => {
   const copyToClipboard = async () => {
-    useStore.setState({ snackbarText: "تم نسخ الحساب بنجاح" });
-    await Clipboard.setStringAsync(telegram);
+    await Clipboard.setStringAsync(telegram).then(() =>
+      useStore.setState({ snackbarText: "تم نسخ الحساب بنجاح" })
+    );
   };
   return (
     <TouchableOpacity onPress={onPress}>
