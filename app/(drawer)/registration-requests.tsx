@@ -98,7 +98,7 @@ const RegistrationRequestsScreen = () => {
           contentContainerStyle={{
             paddingVertical: vs(16),
             paddingHorizontal: hs(16),
-            flex: 1,
+            flexGrow: 1,
           }}
           data={data}
           renderItem={renderItem}
