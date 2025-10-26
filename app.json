@@ -3,7 +3,7 @@
     "name": "مجالس القرآن",
     "slug": "qoranthon",
     "scheme": "qoranthon",
-    "version": "1.1.7",
+    "version": "1.2.6",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
@@ -19,17 +19,17 @@
     "assetBundlePatterns": ["**/*"],
     "ios": {
       "googleServicesFile": "./GoogleService-Info.plist",
-      "buildNumber": "1.1.7",
+      "buildNumber": "1.2.5",
       "supportsTablet": true,
       "bundleIdentifier": "com.qoranthon.majalis"
     },
     "android": {
-      "versionCode": 6,
+      "versionCode": 3,
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#202020"
       },
-      "package": "com.qoranthon.majalis",
+      "package": "com.haithamassoli.majalisquran",
       "googleServicesFile": "./google-services.json",
       "permissions": [
         "android.permission.READ_EXTERNAL_STORAGE",
@@ -59,7 +59,8 @@
           }
         }
       ],
-      "expo-font"
+      "expo-font",
+      "expo-asset"
     ],
     "experiments": {
       "typedRoutes": true,

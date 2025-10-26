@@ -7,9 +7,9 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:1034143153328:android:3d91ea17c4728502d48f75",
+        "mobilesdk_app_id": "1:1034143153328:android:bc224877ae8de918d48f75",
         "android_client_info": {
-          "package_name": "com.qoranthon.majalis"
+          "package_name": "com.haithamassoli.majalisquran"
         }
       },
       "oauth_client": [],
